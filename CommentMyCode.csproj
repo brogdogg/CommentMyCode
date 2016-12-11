@@ -23,7 +23,7 @@
     <ProjectGuid>{4F53BCAE-9825-4098-B53C-A354A92BE5E7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommentMyCode</RootNamespace>
+    <RootNamespace>MB.VS.Extension.CommentMyCode</RootNamespace>
     <AssemblyName>CommentMyCode</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
@@ -51,8 +51,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommentMyCode.cs" />
     <Compile Include="CommentMyCodePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\IProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -62,6 +64,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <VSCTCompile Include="CommentMyCodePackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
     <Content Include="Resources\CommentMyCodePackage.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

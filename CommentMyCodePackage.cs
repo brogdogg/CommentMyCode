@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 
-namespace CommentMyCode
+namespace MB.VS.Extension.CommentMyCode
 {
   /// <summary>
   /// This is the class that implements the package exposed by this assembly.
@@ -39,6 +39,7 @@ namespace CommentMyCode
   [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
   [Guid(CommentMyCodePackage.PackageGuidString)]
   [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+  [ProvideMenuResource("Menus.ctmenu", 1)]
   public sealed class CommentMyCodePackage : Package
   {
     /// <summary>
@@ -66,6 +67,7 @@ namespace CommentMyCode
     protected override void Initialize()
     {
       base.Initialize();
+      CommentMyCode.Initialize(this);
     }
 
     #endregion
