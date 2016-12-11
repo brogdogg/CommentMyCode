@@ -145,6 +145,18 @@ namespace MB.VS.Extension.CommentMyCode
       id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentEnum);
       command = new OleMenuCommand(new EventHandler(CommentEnumHandler), id);
       service.AddCommand(command);
+
+      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentFile);
+      command = new OleMenuCommand(new EventHandler(CommentFileHandler), id);
+      service.AddCommand(command);
+
+      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentFunction);
+      command = new OleMenuCommand(new EventHandler(CommentFunctionHandler), id);
+      service.AddCommand(command);
+
+      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentProperty);
+      command = new OleMenuCommand(new EventHandler(CommentPropertyHandler), id);
+      service.AddCommand(command);
     } // end of function - AddCommentCommands
 
     /*----------------------- CommentClassHandler ---------------------------*/
@@ -155,7 +167,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentClassHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("HEY HEY HEY HEY");
+      WriteToOutputWindow("Class");
       return;
     } // end of function - CommentClassHandler
 
@@ -167,7 +179,45 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentEnumHandler(object sender, EventArgs args)
     {
+      WriteToOutputWindow("Enum");
     } // end of function - CommentEnumHandler
+
+    /*----------------------- CommentFileHandler ----------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    protected virtual void CommentFileHandler(object sender, EventArgs args)
+    {
+      WriteToOutputWindow("File");
+      return;
+    } // end of function - CommentFileHandler
+
+    /*----------------------- CommentFunctionHandler ------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    protected virtual void CommentFunctionHandler(object sender, EventArgs args)
+    {
+      WriteToOutputWindow("Function");
+      return;
+    } // end of function - CommentFunctionHandler
+
+    /*----------------------- CommmentPropertyHandler -----------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    protected virtual void CommentPropertyHandler(object sender, EventArgs args)
+    {
+      WriteToOutputWindow("Property");
+      return;
+    } // end of function - CommmentPropertyHandler
+
 
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

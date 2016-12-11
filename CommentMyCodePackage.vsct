@@ -68,19 +68,34 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-          <!--
-      <Button guid="guidCommentMyCodePackageCmdSet" id="CommentClassID" priority="0x0100" type="Button">
-        <Parent guid="guidCommentMyCodePackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
-        <Strings>
-          <ButtonText>Invoke Command1</ButtonText>
-        </Strings>
-      </Button>
-      -->
       <Button guid="guidCommentShortcutsCmdSet" id="CommentClassID" priority="0x0100" type="Button">
         <Parent guid="guidCommentShortcutsCmdSet" id="CommentShortcuts" />
         <Strings>
-          <ButtonText>Comment Class</ButtonText>
+          <ButtonText>Class</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCommentShortcutsCmdSet" id="CommentEnumID" priority="0x0100" type="Button">
+        <Parent guid="guidCommentShortcutsCmdSet" id="CommentShortcuts" />
+        <Strings>
+          <ButtonText>Enum</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCommentShortcutsCmdSet" id="CommentFileID" priority="0x0100" type="Button">
+        <Parent guid="guidCommentShortcutsCmdSet" id="CommentShortcuts" />
+        <Strings>
+          <ButtonText>File</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCommentShortcutsCmdSet" id="CommentFunctionID" priority="0x0100" type="Button">
+        <Parent guid="guidCommentShortcutsCmdSet" id="CommentShortcuts" />
+        <Strings>
+          <ButtonText>Function</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCommentShortcutsCmdSet" id="CommentPropertyID" priority="0x0100" type="Button">
+        <Parent guid="guidCommentShortcutsCmdSet" id="CommentShortcuts" />
+        <Strings>
+          <ButtonText>Property</ButtonText>
         </Strings>
       </Button>
     </Buttons>
