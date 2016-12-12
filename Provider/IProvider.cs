@@ -3,8 +3,50 @@
  * Remarks:
  */
 
+using System;
+
 namespace MB.VS.Extension.CommentMyCode.Provider
 {
+
+
+  /************************** ICommentProvider *******************************/
+  /// <summary>
+  /// Extension to the <see cref="IProvider"/> class to provide an entry point
+  /// for commenting on the current project item
+  /// </summary>
+  public interface ICommentProvider : IProvider
+  {
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /************************ Methods ****************************************/
+    /// <summary>
+    /// Comments the current line, attempting to guess 
+    /// </summary>
+    void Comment(SupportedCommandTypeFlag commentCmdType);
+  } // end of interface - ICommentProvider
+
+
+  /************************** ICommentProviderData ***************************/
+  /// <summary>
+  /// The metadata to be used with the classes implementing
+  /// <see cref="ICommentProvider"/> to be used with the Microsoft
+  /// Extensibility Framework
+  /// </summary>
+  public interface ICommentProviderData
+  {
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /// <summary>
+    /// Supported file extension
+    /// </summary>
+    string SupportedExtension { get; }
+
+    /// <summary>
+    /// Flag indicating the types of <see cref="SupportedCommandTypeFlag"/>
+    /// </summary>
+    int SupportedCommandTypes { get; }
+    /************************ Methods ****************************************/
+  } // end of interface - ICommentProviderData
 
 
   /************************** IProvider **************************************/
@@ -26,47 +68,6 @@ namespace MB.VS.Extension.CommentMyCode.Provider
     /// <param name="context"></param>
     void Initialize(CommentMyCode context);
   } // end of interface - IProvider
-
-
-  /************************** ICommentProvider *******************************/
-  /// <summary>
-  /// 
-  /// </summary>
-  public interface ICommentProvider : IProvider
-  {
-    /************************ Events *****************************************/
-    /************************ Properties *************************************/
-    /************************ Methods ****************************************/
-    /// <summary>
-    /// Comments the current line, attempting to guess 
-    /// </summary>
-    void Comment();
-
-    /// <summary>
-    /// Comments a class
-    /// </summary>
-    void CommentClass();
-
-    /// <summary>
-    /// Comments an enum
-    /// </summary>
-    void CommentEnum();
-
-    /// <summary>
-    /// Comments a file
-    /// </summary>
-    void CommentFile();
-
-    /// <summary>
-    /// Comments a function
-    /// </summary>
-    void CommentFunction();
-
-    /// <summary>
-    /// Comments a property
-    /// </summary>
-    void CommentProperty();
-  } // end of interface - ICommentProvider
 
 
 }

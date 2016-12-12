@@ -4,6 +4,7 @@
  */
 using EnvDTE;
 using EnvDTE80;
+using MB.VS.Extension.CommentMyCode.Provider;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -15,44 +16,6 @@ using System.Threading.Tasks;
 
 namespace MB.VS.Extension.CommentMyCode
 {
-
-  /************************** CommentMyCodeCmdIDs ****************************/
-  /// <summary>
-  /// A collection of command IDs
-  /// </summary>
-  public static class CommentMyCodeCmdIDs
-  {
-    /*======================= PUBLIC ========================================*/
-    /************************ Static *****************************************/
-    /// <summary>
-    /// Command IDs for commenting
-    /// </summary>
-    public static class Comment
-    {
-      /// <summary>
-      /// ID for commenting a class
-      /// </summary>
-      public const int CommentClass = 0x10241001;
-      /// <summary>
-      /// ID for commenting an enum
-      /// </summary>
-      public const int CommentEnum = 0x10241002;
-      /// <summary>
-      /// ID for commenting a file
-      /// </summary>
-      public const int CommentFile = 0x10241003;
-      /// <summary>
-      /// ID for commenting a function
-      /// </summary>
-      public const int CommentFunction = 0x10241004;
-      /// <summary>
-      /// ID for commenting a property
-      /// </summary>
-      public const int CommentProperty = 0x10241005;
-
-    }
-
-  } // end of class - CommentMyCodeCmdIDs
 
 
   /************************** CommentMyCode **********************************/
@@ -73,6 +36,15 @@ namespace MB.VS.Extension.CommentMyCode
     /// </summary>
     public static readonly Guid MenuGroup = new Guid("DACDBE1C-C2E2-4069-8C6F-A6E0D9A330A1");
     /************************ Static Properties ******************************/
+    /*----------------------- DTE -------------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public DTE2 DTE
+    {
+      get { return m_dte; }
+    } // end of property - DTE
+
     /*----------------------- Instance --------------------------------------*/
     /// <summary>
     /// 
@@ -96,6 +68,7 @@ namespace MB.VS.Extension.CommentMyCode
       if (INSTANCE != null)
         throw new InvalidOperationException("Already initialized");
 
+      ProviderFactory.Initialize();
       return (INSTANCE = new CommentMyCode(package));
     } // end of function - Initialize
 
@@ -168,6 +141,7 @@ namespace MB.VS.Extension.CommentMyCode
     protected virtual void CommentClassHandler(object sender, EventArgs args)
     {
       WriteToOutputWindow("Class");
+      ExecuteCommentProvider(SupportedCommandTypeFlag.Class);
       return;
     } // end of function - CommentClassHandler
 
@@ -180,6 +154,7 @@ namespace MB.VS.Extension.CommentMyCode
     protected virtual void CommentEnumHandler(object sender, EventArgs args)
     {
       WriteToOutputWindow("Enum");
+      ExecuteCommentProvider(SupportedCommandTypeFlag.Enum);
     } // end of function - CommentEnumHandler
 
     /*----------------------- CommentFileHandler ----------------------------*/
@@ -191,6 +166,7 @@ namespace MB.VS.Extension.CommentMyCode
     protected virtual void CommentFileHandler(object sender, EventArgs args)
     {
       WriteToOutputWindow("File");
+      ExecuteCommentProvider(SupportedCommandTypeFlag.File);
       return;
     } // end of function - CommentFileHandler
 
@@ -203,6 +179,7 @@ namespace MB.VS.Extension.CommentMyCode
     protected virtual void CommentFunctionHandler(object sender, EventArgs args)
     {
       WriteToOutputWindow("Function");
+      ExecuteCommentProvider(SupportedCommandTypeFlag.Function);
       return;
     } // end of function - CommentFunctionHandler
 
@@ -215,8 +192,21 @@ namespace MB.VS.Extension.CommentMyCode
     protected virtual void CommentPropertyHandler(object sender, EventArgs args)
     {
       WriteToOutputWindow("Property");
+      ExecuteCommentProvider(SupportedCommandTypeFlag.Property);
       return;
     } // end of function - CommmentPropertyHandler
+
+    /*----------------------- ExecuteCommentProvider ------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="commandType"></param>
+    protected virtual void ExecuteCommentProvider(SupportedCommandTypeFlag commandType)
+    {
+      var provider = ProviderFactory.Instance.BuildProvider(this, commandType);
+      provider?.Comment(commandType);
+      return;
+    } // end of function - ExecuteCommentProvider
 
 
     /************************ Fields *****************************************/
@@ -247,6 +237,79 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Static *****************************************/
     private static CommentMyCode INSTANCE = null;
   } // end of class - CommentMyCode
+
+
+  /************************** CommentMyCodeCmdIDs ****************************/
+  /// <summary>
+  /// A collection of command IDs
+  /// </summary>
+  public static class CommentMyCodeCmdIDs
+  {
+    /*======================= PUBLIC ========================================*/
+    /************************ Static *****************************************/
+    /// <summary>
+    /// Command IDs for commenting
+    /// </summary>
+    public static class Comment
+    {
+      /// <summary>
+      /// ID for commenting a class
+      /// </summary>
+      public const int CommentClass = 0x10241001;
+      /// <summary>
+      /// ID for commenting an enum
+      /// </summary>
+      public const int CommentEnum = 0x10241002;
+      /// <summary>
+      /// ID for commenting a file
+      /// </summary>
+      public const int CommentFile = 0x10241003;
+      /// <summary>
+      /// ID for commenting a function
+      /// </summary>
+      public const int CommentFunction = 0x10241004;
+      /// <summary>
+      /// ID for commenting a property
+      /// </summary>
+      public const int CommentProperty = 0x10241005;
+
+    }
+
+  } // end of class - CommentMyCodeCmdIDs
+
+
+  /************************** SupportedCommandTypeFlag ***********************/
+  /// <summary>
+  /// Represents the different types of supported command types for commenting
+  /// </summary>
+  [Flags]
+  public enum SupportedCommandTypeFlag
+  {
+    /// <summary>
+    /// An unknown type
+    /// </summary>
+    Unknown = 0x0000,
+    /// <summary>
+    /// Class command type
+    /// </summary>
+    Class = 0x0001,
+    /// <summary>
+    /// Enum command type
+    /// </summary>
+    Enum = 0x0002,
+    /// <summary>
+    /// File command type
+    /// </summary>
+    File = 0x0004,
+    /// <summary>
+    /// Function command type
+    /// </summary>
+    Function = 0x0008,
+    /// <summary>
+    /// Property command type
+    /// </summary>
+    Property = 0x0010
+  } // end of enum - SupportedCommandTypeFlag
 
 
 }
