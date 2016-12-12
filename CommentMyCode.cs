@@ -4,12 +4,14 @@
  */
 using EnvDTE;
 using EnvDTE80;
+using MB.VS.Extension.CommentMyCode.Context;
 using MB.VS.Extension.CommentMyCode.Provider;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,8 +142,17 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentClassHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("Class");
-      ExecuteCommentProvider(SupportedCommandTypeFlag.Class);
+      try
+      {
+        WriteToOutputWindow("Class");
+        var t = new ItemContext();
+        t.Initialize(this);
+        ExecuteCommentProvider(SupportedCommandTypeFlag.Class);
+      }
+      catch(Exception exc)
+      {
+        Debug.WriteLine("Exception: " + exc.ToString());
+      }
       return;
     } // end of function - CommentClassHandler
 
