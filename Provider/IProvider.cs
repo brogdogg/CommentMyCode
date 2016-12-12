@@ -3,6 +3,7 @@
  * Remarks:
  */
 
+using MB.VS.Extension.CommentMyCode.Context;
 using System;
 
 namespace MB.VS.Extension.CommentMyCode.Provider
@@ -22,7 +23,7 @@ namespace MB.VS.Extension.CommentMyCode.Provider
     /// <summary>
     /// Comments the current line, attempting to guess 
     /// </summary>
-    void Comment(SupportedCommandTypeFlag commentCmdType);
+    void Comment();
   } // end of interface - ICommentProvider
 
 
@@ -60,13 +61,13 @@ namespace MB.VS.Extension.CommentMyCode.Provider
     /// <summary>
     /// Gets the main context that initialized us
     /// </summary>
-    CommentMyCode Context { get; }
+    IItemContext Context { get; }
     /************************ Methods ****************************************/
     /// <summary>
     /// Initializes the provider with a given context
     /// </summary>
     /// <param name="context"></param>
-    void Initialize(CommentMyCode context);
+    void Initialize(IItemContext context);
   } // end of interface - IProvider
 
 

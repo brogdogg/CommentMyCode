@@ -134,6 +134,20 @@ namespace MB.VS.Extension.CommentMyCode
       service.AddCommand(command);
     } // end of function - AddCommentCommands
 
+    /*----------------------- CommentHandler ------------------------------------*/
+    protected virtual void CommentHandler(object sender, EventArgs args)
+    {
+      try
+      {
+        ExecuteCommentProvider(new ItemContext(this));
+      }
+      catch(Exception exc)
+      {
+        Debug.WriteLine("Exception: " + exc.ToString());
+      }
+      return;
+    } // end of function - CommentHandler
+
     /*----------------------- CommentClassHandler ---------------------------*/
     /// <summary>
     /// 
@@ -142,18 +156,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentClassHandler(object sender, EventArgs args)
     {
-      try
-      {
-        WriteToOutputWindow("Class");
-        var t = new ItemContext();
-        t.Initialize(this);
-        ExecuteCommentProvider(SupportedCommandTypeFlag.Class);
-      }
-      catch(Exception exc)
-      {
-        Debug.WriteLine("Exception: " + exc.ToString());
-      }
-      return;
+      CommentHandler(sender, args);
     } // end of function - CommentClassHandler
 
     /*----------------------- CommentEnumHandler ----------------------------*/
@@ -164,8 +167,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentEnumHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("Enum");
-      ExecuteCommentProvider(SupportedCommandTypeFlag.Enum);
+      CommentHandler(sender, args);
     } // end of function - CommentEnumHandler
 
     /*----------------------- CommentFileHandler ----------------------------*/
@@ -176,9 +178,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentFileHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("File");
-      ExecuteCommentProvider(SupportedCommandTypeFlag.File);
-      return;
+      CommentHandler(sender, args);
     } // end of function - CommentFileHandler
 
     /*----------------------- CommentFunctionHandler ------------------------*/
@@ -189,9 +189,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentFunctionHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("Function");
-      ExecuteCommentProvider(SupportedCommandTypeFlag.Function);
-      return;
+      CommentHandler(sender, args);
     } // end of function - CommentFunctionHandler
 
     /*----------------------- CommmentPropertyHandler -----------------------*/
@@ -202,9 +200,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentPropertyHandler(object sender, EventArgs args)
     {
-      WriteToOutputWindow("Property");
-      ExecuteCommentProvider(SupportedCommandTypeFlag.Property);
-      return;
+      CommentHandler(sender, args);
     } // end of function - CommmentPropertyHandler
 
     /*----------------------- ExecuteCommentProvider ------------------------*/
@@ -212,10 +208,10 @@ namespace MB.VS.Extension.CommentMyCode
     /// 
     /// </summary>
     /// <param name="commandType"></param>
-    protected virtual void ExecuteCommentProvider(SupportedCommandTypeFlag commandType)
+    protected virtual void ExecuteCommentProvider(IItemContext context)
     {
-      var provider = ProviderFactory.Instance.BuildProvider(this, commandType);
-      provider?.Comment(commandType);
+      var provider = ProviderFactory.Instance.BuildProvider(context);
+      provider?.Comment();
       return;
     } // end of function - ExecuteCommentProvider
 

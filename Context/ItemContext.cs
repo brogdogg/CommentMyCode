@@ -98,13 +98,32 @@ namespace MB.VS.Extension.CommentMyCode.Context
       protected set;
     } = null; // end of property - State
     /************************ Construction ***********************************/
+    /*----------------------- ItemContext -----------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public ItemContext()
+    {
+      return;
+    } // end of function - ItemContext
+
+    /*----------------------- ItemContext -----------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="state"></param>
+    public ItemContext(CommentMyCode state)
+    {
+      Initialize(state);
+    } // end of function - ItemContext
+
     /************************ Methods ****************************************/
     /*----------------------- Initialize ------------------------------------*/
     /// <summary>
     /// Initializes the object based on the state object
     /// </summary>
     /// <param name="state"></param>
-    public virtual void Initialize(CommentMyCode state)
+    public void Initialize(CommentMyCode state)
     {
       if (null == (State = state))
         throw new ArgumentNullException("A valid state object must be provided");

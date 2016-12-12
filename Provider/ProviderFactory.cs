@@ -2,6 +2,7 @@
  * File...: ProviderFactory.cs
  * Remarks:
  */
+using MB.VS.Extension.CommentMyCode.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -30,11 +31,11 @@ namespace MB.VS.Extension.CommentMyCode.Provider
     /// <summary>
     /// 
     /// </summary>
-    public virtual ICommentProvider BuildProvider(CommentMyCode context, SupportedCommandTypeFlag commentCmdType)
+    public virtual ICommentProvider BuildProvider(IItemContext context)
     {
-      var retval = m_providers.Where(v => (v.Metadata.SupportedCommandTypes & (int)commentCmdType) != 0)
-                        .SingleOrDefault();
-      if(retval != null && !retval.IsValueCreated)
+      var retval = m_providers.Where(v => (v.Metadata.SupportedCommandTypes & (int)context.CommentType) != 0)
+                              .SingleOrDefault();
+      if (retval != null && !retval.IsValueCreated)
         retval.Value.Initialize(context);
       return retval == null ? null : retval.Value;
     } // end of function - BuildProvider
