@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using MB.VS.Extension.CommentMyCode.UserOptions;
 
 namespace MB.VS.Extension.CommentMyCode
 {
@@ -40,6 +41,7 @@ namespace MB.VS.Extension.CommentMyCode
   [Guid(CommentMyCodePackage.PackageGuidString)]
   [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
   [ProvideMenuResource("Menus.ctmenu", 1)]
+  [ProvideOptionPage(typeof(MainOptionPage), "CommentMyCode", "Main", 0, 0, true)]
   public sealed class CommentMyCodePackage : Package
   {
     /// <summary>

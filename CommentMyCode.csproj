@@ -55,6 +55,9 @@
     <Compile Include="CommentMyCodePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\IProvider.cs" />
+    <Compile Include="UserOptions\MainOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
