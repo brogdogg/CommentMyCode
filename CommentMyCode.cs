@@ -22,13 +22,21 @@ namespace MB.VS.Extension.CommentMyCode
 
   /************************** CommentMyCode **********************************/
   /// <summary>
-  /// 
+  /// Main command handler for comment my code
   /// </summary>
   public class CommentMyCode
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- DTE -------------------------------------------*/
+    /// <summary>
+    /// Gets the DTE2 service from the package
+    /// </summary>
+    public DTE2 DTE
+    {
+      get { return m_dte; }
+    } // end of property - DTE
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -38,18 +46,9 @@ namespace MB.VS.Extension.CommentMyCode
     /// </summary>
     public static readonly Guid MenuGroup = new Guid("DACDBE1C-C2E2-4069-8C6F-A6E0D9A330A1");
     /************************ Static Properties ******************************/
-    /*----------------------- DTE -------------------------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    public DTE2 DTE
-    {
-      get { return m_dte; }
-    } // end of property - DTE
-
     /*----------------------- Instance --------------------------------------*/
     /// <summary>
-    /// 
+    /// Gets the static instance of <see cref="CommentMyCode"/>
     /// </summary>
     public static CommentMyCode Instance
     {
@@ -58,10 +57,14 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Static *****************************************/
     /*----------------------- Initialize ------------------------------------*/
     /// <summary>
-    /// 
+    /// Initializes expecting a valid package
     /// </summary>
     /// <param name="package"></param>
     /// <returns></returns>
+    /// <remarks>
+    /// Will throw an <see cref="InvalidOperationException"/> exception if
+    /// this has already been initialized
+    /// </remarks>
     public static CommentMyCode Initialize(Package package)
     {
       if (null == package)
@@ -79,14 +82,12 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Properties *************************************/
     /*----------------------- Service ---------------------------------------*/
     /// <summary>
-    /// 
+    /// Gets the package as a service provider
     /// </summary>
     public IServiceProvider Service
     {
       get { return m_package as IServiceProvider; }
     } // end of property - Service
-
-
     /************************ Construction ***********************************/
     /*----------------------- CommentMyCode ---------------------------------*/
     /// <summary>
@@ -109,34 +110,26 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Methods ****************************************/
     /*----------------------- AddCommentCommands ----------------------------*/
     /// <summary>
-    /// 
+    /// Adds the comment commands to the menu command service
     /// </summary>
     protected virtual void AddCommentCommands(OleMenuCommandService service)
     {
-      var id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentClass);
-      var command = new OleMenuCommand(new EventHandler(CommentClassHandler), id);
+      // Add in the file command
+      var id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentFile);
+      var command = new OleMenuCommand(new EventHandler(CommentFileHandler), id);
       service.AddCommand(command);
 
-      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentEnum);
-      command = new OleMenuCommand(new EventHandler(CommentEnumHandler), id);
+      // And add in the general command, which is responsible for parsing the
+      // doc to figure out the comment sequence
+      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentGeneral);
+      command = new OleMenuCommand(new EventHandler(CommentHandler), id);
       service.AddCommand(command);
-
-      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentFile);
-      command = new OleMenuCommand(new EventHandler(CommentFileHandler), id);
-      service.AddCommand(command);
-
-      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentFunction);
-      command = new OleMenuCommand(new EventHandler(CommentFunctionHandler), id);
-      service.AddCommand(command);
-
-      id = new CommandID(MenuGroup, CommentMyCodeCmdIDs.Comment.CommentProperty);
-      command = new OleMenuCommand(new EventHandler(CommentPropertyHandler), id);
-      service.AddCommand(command);
+      return;
     } // end of function - AddCommentCommands
 
     /*----------------------- CommentHandler --------------------------------*/
     /// <summary>
-    /// 
+    /// Generic comment handler
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
@@ -144,6 +137,7 @@ namespace MB.VS.Extension.CommentMyCode
     {
       try
       {
+        // Go ahead and build a context and execute the provider
         ExecuteCommentProvider(new ItemContext(this));
       }
       catch(Exception exc)
@@ -153,31 +147,9 @@ namespace MB.VS.Extension.CommentMyCode
       return;
     } // end of function - CommentHandler
 
-    /*----------------------- CommentClassHandler ---------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    protected virtual void CommentClassHandler(object sender, EventArgs args)
-    {
-      CommentHandler(sender, args);
-    } // end of function - CommentClassHandler
-
-    /*----------------------- CommentEnumHandler ----------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    protected virtual void CommentEnumHandler(object sender, EventArgs args)
-    {
-      CommentHandler(sender, args);
-    } // end of function - CommentEnumHandler
-
     /*----------------------- CommentFileHandler ----------------------------*/
     /// <summary>
-    /// 
+    /// Handler for the file comment command for specialized handling
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
@@ -186,41 +158,19 @@ namespace MB.VS.Extension.CommentMyCode
       CommentHandler(sender, args);
     } // end of function - CommentFileHandler
 
-    /*----------------------- CommentFunctionHandler ------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    protected virtual void CommentFunctionHandler(object sender, EventArgs args)
-    {
-      CommentHandler(sender, args);
-    } // end of function - CommentFunctionHandler
-
-    /*----------------------- CommmentPropertyHandler -----------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    protected virtual void CommentPropertyHandler(object sender, EventArgs args)
-    {
-      CommentHandler(sender, args);
-    } // end of function - CommmentPropertyHandler
-
     /*----------------------- ExecuteCommentProvider ------------------------*/
     /// <summary>
-    /// 
+    /// Executes the comment provider with the specified context
     /// </summary>
-    /// <param name="commandType"></param>
+    /// <param name="context">
+    /// The main context object to exucute with
+    /// </param>
     protected virtual void ExecuteCommentProvider(IItemContext context)
     {
       var provider = ProviderFactory.Instance.BuildProvider(context);
       provider?.Comment();
       return;
     } // end of function - ExecuteCommentProvider
-
-
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -265,6 +215,10 @@ namespace MB.VS.Extension.CommentMyCode
     public static class Comment
     {
       /// <summary>
+      /// Represents a general comment command
+      /// </summary>
+      public const int CommentGeneral = 0x10241000;
+      /// <summary>
       /// ID for commenting a class
       /// </summary>
       public const int CommentClass = 0x10241001;
@@ -284,6 +238,14 @@ namespace MB.VS.Extension.CommentMyCode
       /// ID for commenting a property
       /// </summary>
       public const int CommentProperty = 0x10241005;
+      /// <summary>
+      /// ID for commenting a struct
+      /// </summary>
+      public const int CommentStruct = 0x10241006;
+      /// <summary>
+      /// ID for commenting an interface
+      /// </summary>
+      public const int CommentInterface = 0x10241007;
 
     }
 
@@ -318,9 +280,18 @@ namespace MB.VS.Extension.CommentMyCode
     /// </summary>
     Function = 0x0008,
     /// <summary>
+    /// Interface type object
+    /// </summary>
+    Interface = 0x0010,
+    /// <summary>
     /// Property command type
     /// </summary>
-    Property = 0x0010
+    Property = 0x0020,
+    /// <summary>
+    /// Struct object
+    /// </summary>
+    Struct =   0x0040
+
   } // end of enum - SupportedCommandTypeFlag
 
 
