@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MB.VS.Extension.CommentMyCode.Provider
+namespace MB.VS.Extension.CommentMyCode.Providers
 {
 
 
@@ -33,8 +33,10 @@ namespace MB.VS.Extension.CommentMyCode.Provider
     /// </summary>
     public virtual ICommentProvider BuildProvider(IItemContext context)
     {
-      var retval = m_providers.Where(v => (v.Metadata.SupportedCommandTypes & (int)context.CommentType) != 0)
-                              .SingleOrDefault();
+      var retval = m_providers
+        .Where(v => (v.Metadata.SupportedCommandTypes & (int)context.CommentType) != 0
+                  && v.Metadata.SupportedExtension == context.Extension)
+        .SingleOrDefault();
       if (retval != null && !retval.IsValueCreated)
         retval.Value.Initialize(context);
       return retval == null ? null : retval.Value;

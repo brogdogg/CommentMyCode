@@ -6,7 +6,7 @@
 using MB.VS.Extension.CommentMyCode.Context;
 using System;
 
-namespace MB.VS.Extension.CommentMyCode.Provider
+namespace MB.VS.Extension.CommentMyCode.Providers
 {
 
 

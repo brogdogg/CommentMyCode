@@ -5,7 +5,7 @@
 using EnvDTE;
 using EnvDTE80;
 using MB.VS.Extension.CommentMyCode.Context;
-using MB.VS.Extension.CommentMyCode.Provider;
+using MB.VS.Extension.CommentMyCode.Providers;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
@@ -134,7 +134,12 @@ namespace MB.VS.Extension.CommentMyCode
       service.AddCommand(command);
     } // end of function - AddCommentCommands
 
-    /*----------------------- CommentHandler ------------------------------------*/
+    /*----------------------- CommentHandler --------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
     protected virtual void CommentHandler(object sender, EventArgs args)
     {
       try
