@@ -35,6 +35,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       EnvDTE.TextDocument td = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
       var sp = td.StartPoint.CreateEditPoint();
       var ep = td.EndPoint.CreateEditPoint();
+      sp.Copy(ep);
       try
       {
         Prepare();
@@ -43,8 +44,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       }
       catch (Exception exc)
       {
-        sp.StartOfDocument();
         ep.EndOfDocument();
+        sp.Delete(ep);
+        sp.Paste();
         Debug.WriteLine("Exception while commenting: " + exc.ToString());
       }
       return;
@@ -58,8 +60,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    protected abstract void Cleanup();
-    protected abstract void Prepare();
+    protected virtual void Cleanup() { throw new InvalidCastException(); return; }
+    protected virtual void Prepare() { return; }
     protected abstract void Process();
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

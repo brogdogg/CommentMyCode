@@ -36,16 +36,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    protected override void Cleanup()
-    {
-      return;
-    }
-
     protected override void InitializeProvider()
-    {
-    }
-
-    protected override void Prepare()
     {
     }
 
