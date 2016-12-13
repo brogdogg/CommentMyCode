@@ -1,43 +1,31 @@
 ﻿/******************************************************************************
- * File...: MainOptionPage.cs
+ * File...: CSharpFileCommentProvider.cs
  * Remarks:
  */
-using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MB.VS.Extension.CommentMyCode.UserOptions
+namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 {
 
 
-  /************************** MainOptionPage *********************************/
+  /************************** CSharpFileCommentProvider **********************/
   /// <summary>
-  /// Extends the VS <see cref="DialogPage"/> to provide the basic options
-  /// for this module
+  /// 
   /// </summary>
-  /// <remarks>
-  /// Followed some example from
-  /// https://msdn.microsoft.com/en-us/library/bb165657.aspx
-  /// </remarks>
-  public class MainOptionPage : DialogPage
+  [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
+  [ExportMetadata("SupportedCommandTypes",
+    (int)(SupportedCommandTypeFlag.File))] // Support file comments
+  [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
+  public class CSharpFileCommentProvider : BaseCommentProvider
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
-    /*
-    [Category("Main")]
-    [DisplayName("File Header")]
-    [Description("File Header")]
-    public string FileHeaderTemplate
-    {
-      get { return m_fileHeaderTemplate; }
-      set { m_fileHeaderTemplate = value; }
-    }
-    */
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -48,6 +36,32 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    protected override void Cleanup()
+    {
+      return;
+    }
+
+    protected override void InitializeProvider()
+    {
+    }
+
+    protected override void Prepare()
+    {
+    }
+
+    protected override void Process()
+    {
+      var textDocument = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
+      var spEditPoint = textDocument.StartPoint.CreateEditPoint();
+      spEditPoint.Insert("/" + new String('*', 80 - 2) + "\n");
+      spEditPoint.Insert(" * File...: " + Context.Document.Name + "\n");
+      spEditPoint.Insert(" * Remarks: \n");
+      spEditPoint.Insert(" */\n");
+      spEditPoint.StartOfDocument();
+
+      var epEditPoint = textDocument.EndPoint.CreateEditPoint();
+      epEditPoint.Insert("/* End of document - " + Context.Document.Name + " */");
+    }
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -57,12 +71,11 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
-    private string m_fileHeaderTemplate = null;
     /************************ Static *****************************************/
-  } // end of class - MainOptionPage
+  } // end of class - CSharpFileCommentProvider
 
 
 }
 
 
-/* End MainOptionPage.cs */
+/* End CSharpFileCommentProvider.cs */

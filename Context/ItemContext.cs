@@ -46,6 +46,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// </summary>
     /// <param name="state"></param>
     void Initialize(CommentMyCode state);
+    void Initialize(CommentMyCode state, SupportedCommandTypeFlag commentType);
   } // end of interface - IItemContext
 
 
@@ -120,10 +121,20 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /************************ Methods ****************************************/
     /*----------------------- Initialize ------------------------------------*/
     /// <summary>
-    /// Initializes the object based on the state object
+    /// 
     /// </summary>
     /// <param name="state"></param>
     public void Initialize(CommentMyCode state)
+    {
+      Initialize(state, SupportedCommandTypeFlag.Unknown);
+    } // end of function - Initialize
+
+    /*----------------------- Initialize ------------------------------------*/
+    /// <summary>
+    /// Initializes the object based on the state object
+    /// </summary>
+    /// <param name="state"></param>
+    public void Initialize(CommentMyCode state, SupportedCommandTypeFlag commentType)
     {
       if (null == (State = state))
         throw new ArgumentNullException("A valid state object must be provided");
@@ -133,8 +144,9 @@ namespace MB.VS.Extension.CommentMyCode.Context
 
       // Grab the state, active document and the extension of the document
       Extension = Document.GetExtension();
-      // Parse the comment type from the document
-      ParseCommentType();
+      if ((CommentType = commentType) == SupportedCommandTypeFlag.Unknown)
+        // Parse the comment type from the document
+        ParseCommentType();
       return;
     } // end of function - Initialize
     /************************ Fields *****************************************/

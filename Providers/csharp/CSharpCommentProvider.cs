@@ -2,6 +2,7 @@
  * File...: CSharpCommentProvider.cs
  * Remarks:
  */
+using EnvDTE;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -22,7 +23,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.Class      // Support class comments
         | SupportedCommandTypeFlag.Enum       // Support enum comments
-        | SupportedCommandTypeFlag.File       // Support file comments
         | SupportedCommandTypeFlag.Function   // Support function comments
         | SupportedCommandTypeFlag.Property))]// And support property comments
   [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
@@ -33,14 +33,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- Comment ---------------------------------------*/
-    /// <summary>
-    /// Comments based on the current comment command type
-    /// </summary>
-    public override void Comment()
-    {
-      Debug.WriteLine("CSharpCommentProvider.Comment-->");
-    } // end of function - Comment
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -49,6 +41,15 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /*----------------------- Cleanup ---------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void Cleanup()
+    {
+      return;
+    } // end of function - Cleanup
+
     /*----------------------- InitializeProvider ----------------------------*/
     /// <summary>
     /// Initializes this provider
@@ -58,6 +59,26 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       Debug.WriteLine("CSharpCommentProvider.InitializeProvider-->");
       return;
     } // end of function - InitializeProvider
+
+
+    /*----------------------- Prepare ---------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void Prepare()
+    {
+      return;
+    } // end of function - Prepare
+
+
+    /*----------------------- Process ---------------------------------------*/
+    /// <summary>
+    /// Comments based on the current comment command type
+    /// </summary>
+    protected override void Process()
+    {
+      Debug.WriteLine("CSharpCommentProvider.Comment-->");
+    } // end of function - Comment
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

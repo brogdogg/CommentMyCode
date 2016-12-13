@@ -35,6 +35,18 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
       return System.IO.Path.GetExtension(doc.FullName);
     } // end of function - GetExtension
 
+    /*----------------------- GetTextSelection ------------------------------*/
+    /// <summary>
+    /// Gets the <see cref="EnvDTE.Document.Selection"/> as a 
+    /// <see cref="EnvDTE.TextSelection"/> object
+    /// </summary>
+    /// <param name="doc"></param>
+    /// <returns></returns>
+    public static EnvDTE.TextSelection GetTextSelection(this EnvDTE.Document doc)
+    {
+      return (EnvDTE.TextSelection)doc.Selection;
+    } // end of function - GetTextSelection
+
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

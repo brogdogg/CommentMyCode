@@ -155,7 +155,14 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="args"></param>
     protected virtual void CommentFileHandler(object sender, EventArgs args)
     {
-      CommentHandler(sender, args);
+      var context = new ItemContext();
+      context.Initialize(this, SupportedCommandTypeFlag.File);
+      try { ExecuteCommentProvider(context); }
+      catch(Exception exc)
+      {
+        Debug.WriteLine("Exception in file comment handler: " + exc.ToString());
+      }
+      return;
     } // end of function - CommentFileHandler
 
     /*----------------------- ExecuteCommentProvider ------------------------*/

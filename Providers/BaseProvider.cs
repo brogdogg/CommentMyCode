@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MB.VS.Extension.CommentMyCode.Context;
 using System.Diagnostics;
+using MB.VS.Extension.CommentMyCode.Extensions;
 
 namespace MB.VS.Extension.CommentMyCode.Providers
 {
@@ -29,9 +30,23 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// <summary>
     /// Comments on the code at cursor position
     /// </summary>
-    public virtual void Comment()
+    public void Comment()
     {
-      Debug.WriteLine(Context.Document.Name);
+      EnvDTE.TextDocument td = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
+      var sp = td.StartPoint.CreateEditPoint();
+      var ep = td.EndPoint.CreateEditPoint();
+      try
+      {
+        Prepare();
+        Process();
+        Cleanup();
+      }
+      catch (Exception exc)
+      {
+        sp.StartOfDocument();
+        ep.EndOfDocument();
+        Debug.WriteLine("Exception while commenting: " + exc.ToString());
+      }
       return;
     } // end of function - Comment
 
@@ -43,6 +58,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    protected abstract void Cleanup();
+    protected abstract void Prepare();
+    protected abstract void Process();
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -52,6 +70,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
+    string[] m_originalLines = null;
     /************************ Static *****************************************/
   } // end of class - BaseCommentProvider
 
