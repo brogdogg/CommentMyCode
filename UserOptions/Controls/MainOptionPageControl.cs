@@ -1,34 +1,50 @@
 ﻿/******************************************************************************
- * File...: CSharpFileCommentProvider.cs
+ * File...: MainOptionPageControl.cs
  * Remarks:
  */
-using MB.VS.Extension.CommentMyCode.UserOptions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Diagnostics;
 
-namespace MB.VS.Extension.CommentMyCode.Providers.csharp
+namespace MB.VS.Extension.CommentMyCode.UserOptions.Controls
 {
 
 
-  /************************** CSharpFileCommentProvider **********************/
+  /************************** MainOptionPageControl **************************/
   /// <summary>
   /// 
   /// </summary>
-  [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
-  [ExportMetadata("SupportedCommandTypes",
-    (int)(SupportedCommandTypeFlag.File))] // Support file comments
-  [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
-  public class CSharpFileCommentProvider : BaseCommentProvider
+  public partial class MainOptionPageControl : UserControl
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
+    /*----------------------- MainOptionPageControl -------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public MainOptionPageControl()
+    {
+      InitializeComponent();
+    } // end of function - MainOptionPageControl
     /************************ Methods ****************************************/
+    /*----------------------- Initialize ------------------------------------*/
+    /// <summary>
+    /// Initializes the controls with the values from the options object
+    /// </summary>
+    public void Initialize()
+    {
+      uxTemplateDataTextBox.Text = mainOptionPage.FileHeaderTemplate;
+    } // end of function - Initialize
+
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -37,31 +53,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    protected override void InitializeProvider()
-    {
-    }
-
-    protected override void Process()
-    {
-      var textDocument = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
-      var spEditPoint = textDocument.StartPoint.CreateEditPoint();
-      var headerFormat = Context.State.Options.FileHeaderTemplate;
-      spEditPoint.Insert("/" + new String('*', 80 - 2) + "\n");
-      if (headerFormat != null)
-        foreach (var line in headerFormat.Split('\n'))
-          spEditPoint.Insert(" * " + line + "\n");
-      else
-      {
-        spEditPoint.Insert(" * File...: " + Context.Document.Name + "\n");
-        spEditPoint.Insert(" * Remarks: \n");
-      }
-      spEditPoint.Insert(" */\n");
-      spEditPoint.StartOfDocument();
-
-      var epEditPoint = textDocument.EndPoint.CreateEditPoint();
-      epEditPoint.Insert("/* End of document - " + Context.Document.Name + " */");
-    }
     /************************ Fields *****************************************/
+    internal MainOptionPage mainOptionPage;
     /************************ Static *****************************************/
 
     /*======================= PRIVATE =======================================*/
@@ -71,10 +64,10 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-  } // end of class - CSharpFileCommentProvider
+  } // end of class - MainOptionPageControl
 
 
 }
 
 
-/* End CSharpFileCommentProvider.cs */
+/* End MainOptionPageControl.cs */

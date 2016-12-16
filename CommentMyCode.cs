@@ -6,15 +6,12 @@ using EnvDTE;
 using EnvDTE80;
 using MB.VS.Extension.CommentMyCode.Context;
 using MB.VS.Extension.CommentMyCode.Providers;
+using MB.VS.Extension.CommentMyCode.UserOptions;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MB.VS.Extension.CommentMyCode
 {
@@ -37,6 +34,18 @@ namespace MB.VS.Extension.CommentMyCode
     {
       get { return m_dte; }
     } // end of property - DTE
+
+    /*----------------------- Options ---------------------------------------*/
+    /// <summary>
+    /// Gets the main options for our package
+    /// </summary>
+    public MainOptionPage Options
+    {
+      get
+      {
+        return (MainOptionPage)m_package.GetDialogPage(typeof(MainOptionPage));
+      }
+    } // end of property - Options
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/

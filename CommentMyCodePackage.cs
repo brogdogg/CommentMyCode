@@ -41,6 +41,7 @@ namespace MB.VS.Extension.CommentMyCode
   [Guid(CommentMyCodePackage.PackageGuidString)]
   [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
   [ProvideMenuResource("Menus.ctmenu", 1)]
+  [ProvideProfile(typeof(MainOptionPage), "CommentMyCode", "Comment Templates", 106, 107, isToolsOptionPage:true, DescriptionResourceID = 108)]
   [ProvideOptionPage(typeof(MainOptionPage), "CommentMyCode", "Main", 0, 0, true)]
   public sealed class CommentMyCodePackage : Package
   {
