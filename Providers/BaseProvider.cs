@@ -60,7 +60,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    protected virtual void Cleanup() { throw new InvalidCastException(); return; }
+    protected virtual void Cleanup() { return; }
     protected virtual void Prepare() { return; }
     protected abstract void Process();
     /************************ Fields *****************************************/

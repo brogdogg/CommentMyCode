@@ -41,15 +41,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- Cleanup ---------------------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    protected override void Cleanup()
-    {
-      return;
-    } // end of function - Cleanup
-
     /*----------------------- InitializeProvider ----------------------------*/
     /// <summary>
     /// Initializes this provider
@@ -59,17 +50,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       Debug.WriteLine("CSharpCommentProvider.InitializeProvider-->");
       return;
     } // end of function - InitializeProvider
-
-
-    /*----------------------- Prepare ---------------------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    protected override void Prepare()
-    {
-      return;
-    } // end of function - Prepare
-
 
     /*----------------------- Process ---------------------------------------*/
     /// <summary>
