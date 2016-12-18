@@ -42,6 +42,7 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions.Controls
     /// </summary>
     public void Initialize()
     {
+      uxMaxColNumUpDown.Value = mainOptionPage.MaxColumnWidth;
       uxTemplateDataTextBox.Text = mainOptionPage.FileHeaderTemplate;
     } // end of function - Initialize
 

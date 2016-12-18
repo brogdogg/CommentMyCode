@@ -46,7 +46,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var textDocument = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
       var spEditPoint = textDocument.StartPoint.CreateEditPoint();
       var headerFormat = Context.State.Options.FileHeaderTemplate;
-      spEditPoint.Insert("/" + new String('*', 80 - 2) + "\n");
+      spEditPoint.Insert("/" + new String('*', Context.State.Options.MaxColumnWidth - 2) + "\n");
       if (headerFormat != null)
         foreach (var line in headerFormat.Split('\n'))
           spEditPoint.Insert(" * " + line + "\n");

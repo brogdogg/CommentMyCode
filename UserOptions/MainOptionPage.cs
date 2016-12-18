@@ -45,6 +45,18 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
       set { m_fileHeaderTemplate = value; }
     } // end of property - FileHeaderTemplate
 
+    /*----------------------- MaxColumnWidth --------------------------------*/
+    /// <summary>
+    /// Gets/Sets the maximum column index, used to format commenting
+    /// </summary>
+    [Category("Main")]
+    [DisplayName("Max Column")]
+    [Description("The maximum column for commenting")]
+    public int MaxColumnWidth
+    {
+      get { return m_maxColumnWidth; }
+      set { m_maxColumnWidth = value; }
+    } // end of property - MaxColumnWidth
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -79,6 +91,7 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     {
       if(e.ApplyBehavior == ApplyKind.Apply)
       {
+        MaxColumnWidth = (int)m_control.uxMaxColNumUpDown.Value;
         FileHeaderTemplate = m_control.uxTemplateDataTextBox.Text;
       }
       base.OnApply(e);
@@ -93,6 +106,7 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     private string m_fileHeaderTemplate = null;
+    private int m_maxColumnWidth = 80;
     MainOptionPageControl m_control = null;
     /************************ Static *****************************************/
   } // end of class - MainOptionPage
