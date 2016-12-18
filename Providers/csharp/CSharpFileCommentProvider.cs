@@ -46,16 +46,16 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var textDocument = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
       var spEditPoint = textDocument.StartPoint.CreateEditPoint();
       var headerFormat = Context.State.Options.FileHeaderTemplate;
-      spEditPoint.Insert("/" + new String('*', Context.State.Options.MaxColumnWidth - 2) + "\n");
+      InsertLineIntoDoc(spEditPoint, "/" + new String('*', Context.State.Options.MaxColumnWidth - 2));
       if (headerFormat != null)
         foreach (var line in headerFormat.Split('\n'))
-          spEditPoint.Insert(" * " + line + "\n");
+          InsertLineIntoDoc(spEditPoint, " * " + line);
       else
       {
-        spEditPoint.Insert(" * File...: " + Context.Document.Name + "\n");
-        spEditPoint.Insert(" * Remarks: \n");
+        InsertLineIntoDoc(spEditPoint, " * File...: {FILENAME}");
+        InsertLineIntoDoc(spEditPoint," * Remarks: ");
       }
-      spEditPoint.Insert(" */\n");
+      InsertLineIntoDoc(spEditPoint, " */");
       spEditPoint.StartOfDocument();
 
       var epEditPoint = textDocument.EndPoint.CreateEditPoint();

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using MB.VS.Extension.CommentMyCode.Context;
 using System.Diagnostics;
 using MB.VS.Extension.CommentMyCode.Extensions;
+using EnvDTE;
 
 namespace MB.VS.Extension.CommentMyCode.Providers
 {
@@ -61,6 +62,19 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     protected virtual void Cleanup() { return; }
+    protected virtual void InsertIntoDoc(EditPoint ep, string msg)
+    {
+      msg = msg.Replace("{FILENAME}", Context.Document.Name);
+      msg = msg.Replace("{YEAR}", DateTime.Now.Year.ToString());
+      msg = msg.Replace("{DATE}", DateTime.Now.ToString());
+      ep.Insert(msg);
+      return;
+    }
+
+    protected virtual void InsertLineIntoDoc(EditPoint dp, string msg)
+    {
+      InsertIntoDoc(dp, msg + "\n");
+    }
     protected virtual void Prepare() { return; }
     protected abstract void Process();
     /************************ Fields *****************************************/
