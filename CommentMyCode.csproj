@@ -54,6 +54,7 @@
     <Compile Include="CommentMyCode.cs" />
     <Compile Include="CommentMyCodePackage.cs" />
     <Compile Include="Context\ItemContext.cs" />
+    <Compile Include="Extensions\EditPointExtension.cs" />
     <Compile Include="Extensions\TextPointExtension.cs" />
     <Compile Include="Extensions\DocumentExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
