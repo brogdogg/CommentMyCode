@@ -24,6 +24,23 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /*----------------------- GetEndEditPoint -------------------------------*/
+    /// <summary>
+    /// Creates a new edit point at the end point of the document
+    /// </summary>
+    /// <param name="doc">
+    /// Document to get the end point of
+    /// </param>
+    /// <returns>
+    /// A newly created <see cref="EnvDTE.EditPoint"/> pointing at the end of
+    /// the document
+    /// </returns>
+    public static EnvDTE.EditPoint GetEndEditPoint(this EnvDTE.Document doc)
+    {
+      var textDocument = (EnvDTE.TextDocument)doc.Object("TextDocument");
+      return textDocument.EndPoint.CreateEditPoint();
+    } // end of function - GetEndEditPoint
+
     /*----------------------- GetExtension ----------------------------------*/
     /// <summary>
     /// Gets the extension of the document
@@ -34,6 +51,23 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     {
       return System.IO.Path.GetExtension(doc.FullName);
     } // end of function - GetExtension
+
+    /*----------------------- GetStartEditPoint -----------------------------*/
+    /// <summary>
+    /// Creates a new edit point at the start point of the document
+    /// </summary>
+    /// <param name="doc">
+    /// Document to get the end point of
+    /// </param>
+    /// <returns>
+    /// A newly created <see cref="EnvDTE.EditPoint"/> pointing at the start
+    /// of the document
+    /// </returns>
+    public static EnvDTE.EditPoint GetStartEditPoint(this EnvDTE.Document doc)
+    {
+      var textDocument = (EnvDTE.TextDocument)doc.Object("TextDocument");
+      return textDocument.StartPoint.CreateEditPoint();
+    } // end of function - GetStartEditPoint
 
     /*----------------------- GetTextSelection ------------------------------*/
     /// <summary>
