@@ -34,6 +34,12 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// </summary>
     public void Comment()
     {
+#if DEBUG
+#warning Currently forcing a save when it is a newly created/added project item, because things are null until saved the first time
+#endif
+      if (!Context.Document.Saved)
+        Context.Document.Save();
+
       EnvDTE.TextDocument td = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
       // Create a backup, in case there is an exception thrown
       var sp = td.StartPoint.CreateEditPoint();
@@ -115,6 +121,95 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Static *****************************************/
   } // end of class - BaseCommentProvider
 
+
+  /************************** BaseFileCommentProvider ************************/
+  /// <summary>
+  /// 
+  /// </summary>
+  public abstract class BaseFileCommentProvider : BaseCommentProvider
+  {
+    /*======================= PUBLIC ========================================*/
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /************************ Construction ***********************************/
+    /************************ Methods ****************************************/
+    /************************ Fields *****************************************/
+    /************************ Static *****************************************/
+
+    /*======================= PROTECTED =====================================*/
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /*----------------------- Normalizer ------------------------------------*/
+    /// <summary>
+    /// Gets the normalizer to use for normalizing strings for a max column
+    /// width
+    /// </summary>
+    protected StringNormalizer Normalizer
+    {
+      get { return m_normalizer; }
+    } // end of property - Normalizer
+
+    /************************ Construction ***********************************/
+    /************************ Methods ****************************************/
+    /*----------------------- InitializeProvider ----------------------------*/
+    /// <summary>
+    /// Initializes the base file comment provider to create the string
+    /// normalizer
+    /// </summary>
+    protected override void InitializeProvider()
+    {
+      m_normalizer = new StringNormalizer(Context.State.Options.MaxColumnWidth);
+    } // end of function - InitializeProvider
+
+
+    /*----------------------- Process ---------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void Process()
+    {
+      // Get the start point edit point
+      var spEditPoint = Context.Document.GetStartEditPoint();
+      // And get the header format from the options
+      var headerFormat = Context.State.Options.FileHeaderTemplate;
+      // Go ahead and process the comments for the header
+      ProcessHead(spEditPoint, headerFormat);
+      spEditPoint.StartOfDocument();
+
+      // And then process the comments for the foot of the document
+      ProcessFoot(Context.Document.GetEndEditPoint());
+
+      return;
+    } // end of function - Process
+
+    /// <summary>
+    /// Processes the document for the header comments
+    /// </summary>
+    /// <param name="startEditPoint">
+    /// A edit point pointing at the current document
+    /// </param>
+    /// <param name="headerTemplate"></param>
+    protected abstract void ProcessHead(EnvDTE.EditPoint startEditPoint, string headerTemplate);
+
+    /// <summary>
+    /// Processes the document for the footer comments
+    /// </summary>
+    /// <param name="endEditPoint">
+    /// A edit point pointing at the end of the current document
+    /// </param>
+    protected abstract void ProcessFoot(EnvDTE.EditPoint endEditPoint);
+    /************************ Fields *****************************************/
+    /************************ Static *****************************************/
+
+    /*======================= PRIVATE =======================================*/
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /************************ Construction ***********************************/
+    /************************ Methods ****************************************/
+    /************************ Fields *****************************************/
+    StringNormalizer m_normalizer = null;
+    /************************ Static *****************************************/
+  } // end of class - BaseFileCommentProvider
 
 
   /************************** BaseProvider ***********************************/
