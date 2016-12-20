@@ -5,6 +5,7 @@
 using EnvDTE;
 using EnvDTE80;
 using MB.VS.Extension.CommentMyCode.Context;
+using MB.VS.Extension.CommentMyCode.MacroExpander;
 using MB.VS.Extension.CommentMyCode.Providers;
 using MB.VS.Extension.CommentMyCode.UserOptions;
 using Microsoft.VisualStudio.Shell;
@@ -34,6 +35,15 @@ namespace MB.VS.Extension.CommentMyCode
     {
       get { return m_dte; }
     } // end of property - DTE
+
+    /*----------------------- MacroExpander ---------------------------------*/
+    /// <summary>
+    /// Gets the <see cref="IMacroExpander"/> to be used with expanding macros
+    /// </summary>
+    public IMacroExpander MacroExpander
+    {
+      get { return m_macroExpander; }
+    } // end of property - MacroExpander
 
     /*----------------------- Options ---------------------------------------*/
     /// <summary>
@@ -114,6 +124,7 @@ namespace MB.VS.Extension.CommentMyCode
       {
         AddCommentCommands(menu);
       } // end of if - valid menu
+      m_macroExpander = new MacroExpander.MacroExpander(new ItemContext(this));
       return;
     } // end of function - CommentMyCode
     /************************ Methods ****************************************/
@@ -212,6 +223,7 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Fields *****************************************/
     private Package m_package = null;
     private DTE2 m_dte = null;
+    private IMacroExpander m_macroExpander = null;
     /************************ Static *****************************************/
     private static CommentMyCode INSTANCE = null;
   } // end of class - CommentMyCode

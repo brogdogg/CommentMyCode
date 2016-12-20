@@ -47,13 +47,15 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var spEditPoint = textDocument.StartPoint.CreateEditPoint();
       var headerFormat = Context.State.Options.FileHeaderTemplate;
       InsertLineIntoDoc(spEditPoint, "/" + new String('*', Context.State.Options.MaxColumnWidth - 2));
+      StringNormalizer sn = new StringNormalizer(Context.State.Options.MaxColumnWidth);
       if (headerFormat != null)
-        foreach (var line in headerFormat.Split('\n'))
-          InsertLineIntoDoc(spEditPoint, " * " + line);
+        foreach(var line in headerFormat.Split('\n'))
+          foreach (var normalizedStr in sn.Normalize(Context.State.MacroExpander.Expand(line), 3))
+            InsertLineIntoDoc(spEditPoint, " * " + normalizedStr);
       else
       {
         InsertLineIntoDoc(spEditPoint, " * File...: {FILENAME}");
-        InsertLineIntoDoc(spEditPoint," * Remarks: ");
+        InsertLineIntoDoc(spEditPoint, " * Remarks: ");
       }
       InsertLineIntoDoc(spEditPoint, " */");
       spEditPoint.StartOfDocument();

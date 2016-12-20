@@ -86,25 +86,45 @@ namespace MB.VS.Extension.CommentMyCode
       if (offset < 0 || offset >= MaxColumnCount)
         throw new InvalidOperationException("Offset is outside the operating range");
 
-      if (strToNormalize != null)
+      // If we have a non-zero/non-null string, we will process and normalize
+      // with respect to the word boundary
+      if (strToNormalize != null && strToNormalize.Length > 0)
       {
         var strCol = strToNormalize.Split(' ');
         var retval = "";
-        int curLen = offset;
-        foreach(var str in strCol)
+        bool isBegin = true;
+
+        // Go through each word in the input string
+        foreach (var str in strCol)
         {
-          if ((curLen = curLen + str.Length) > MaxColumnCount)
+          // Are we at the beginning of the input string?
+          if(isBegin)
           {
-            curLen = offset;
+            retval += str;
+            isBegin = false;
+          } // end of if - is the beginning of the string
+          // If the combination of strings will go ver the max, then we will
+          // return what we have and start a new string
+          // Notice the +1, this is for the space added between words
+          else if ((retval.Length + str.Length + 1 + offset) >= MaxColumnCount)
+          {
             yield return retval;
-            retval = "";
-          }
+            retval = str;
+          } // end of if - reached max word boundary
+          // Else we are still within the boundary, keep building the string
           else
-            retval += curLen == 0 ? str : " " + str;
+            retval += " " + str;
         } // end of foreach - string in the split collection
-        if (curLen > 0)
+
+        // If our return value has a valid length of data, then we will yield
+        // up the leftovers
+        if (retval.Length > 0)
           yield return retval;
+
       } // end of if - valid string to normalize
+      // If the input is not null then it must be blank, we will just yield it
+      else if (strToNormalize != null)
+        yield return strToNormalize;
     } // end of function - Normalize
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

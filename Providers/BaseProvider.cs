@@ -18,7 +18,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers
 
   /************************** BaseCommentProvider ****************************/
   /// <summary>
-  /// 
+  /// Base abstract implementation of the <see cref="ICommentProvider"/>
+  /// interface
   /// </summary>
   public abstract class BaseCommentProvider : BaseProvider, ICommentProvider
   {
@@ -34,6 +35,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     public void Comment()
     {
       EnvDTE.TextDocument td = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
+      // Create a backup, in case there is an exception thrown
       var sp = td.StartPoint.CreateEditPoint();
       var ep = td.EndPoint.CreateEditPoint();
       sp.Copy(ep);
@@ -61,21 +63,44 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /// <summary>
+    /// Cleans up after processing
+    /// </summary>
     protected virtual void Cleanup() { return; }
+
+    /// <summary>
+    /// Insert the data into the edit point
+    /// </summary>
+    /// <param name="ep"></param>
+    /// <param name="msg"></param>
     protected virtual void InsertIntoDoc(EditPoint ep, string msg)
     {
-      msg = msg.Replace("{FILENAME}", Context.Document.Name);
-      msg = msg.Replace("{YEAR}", DateTime.Now.Year.ToString());
-      msg = msg.Replace("{DATE}", DateTime.Now.ToString());
       ep.Insert(msg);
       return;
     }
 
+    /// <summary>
+    /// Inserts a line into the document pointed to by the edit point
+    /// </summary>
+    /// <param name="ep">
+    /// Edit point to insert at
+    /// </param>
+    /// <param name="msg">
+    /// Message to write to edit point as a new line
+    /// </param>
     protected virtual void InsertLineIntoDoc(EditPoint dp, string msg)
     {
       InsertIntoDoc(dp, msg + "\n");
     }
+
+    /// <summary>
+    /// Prepare for processing
+    /// </summary>
     protected virtual void Prepare() { return; }
+
+    /// <summary>
+    /// Process
+    /// </summary>
     protected abstract void Process();
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
@@ -134,7 +159,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /// <summary>
-    /// 
+    /// Initializes the provider
     /// </summary>
     protected abstract void InitializeProvider();
     /************************ Fields *****************************************/

@@ -19,7 +19,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
   /// <summary>
   /// Represents a context to process
   /// </summary>
-  public interface IItemContext
+  public interface IItemContext : IDisposable
   {
     /************************ Events *****************************************/
     /************************ Properties *************************************/
@@ -118,7 +118,19 @@ namespace MB.VS.Extension.CommentMyCode.Context
       Initialize(state);
     } // end of function - ItemContext
 
+    /*----------------------- ~ItemContext ----------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    ~ItemContext() { Dispose(false); }
+
     /************************ Methods ****************************************/
+    /*----------------------- Dispose ---------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Dispose() { Dispose(true); GC.SuppressFinalize(this); }
+
     /*----------------------- Initialize ------------------------------------*/
     /// <summary>
     /// 
@@ -157,6 +169,19 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /*----------------------- Dispose ---------------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected virtual void Dispose(bool disposing)
+    {
+      State = null;
+      Document = null;
+      Extension = null;
+      CommentType = SupportedCommandTypeFlag.Unknown;
+      return;
+    } // end of function - Dispose
     /*----------------------- ParseCommentType ------------------------------*/
     /// <summary>
     /// Parses the comment type from the current document
