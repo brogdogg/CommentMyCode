@@ -83,12 +83,15 @@ namespace MB.VS.Extension.CommentMyCode
     /// </returns>
     public virtual IEnumerable<string> Normalize(string strToNormalize, int offset)
     {
+      if (strToNormalize == null)
+        throw new ArgumentNullException("String to normalize must not be null");
+
       if (offset < 0 || offset >= MaxColumnCount)
         throw new InvalidOperationException("Offset is outside the operating range");
 
       // If we have a non-zero/non-null string, we will process and normalize
       // with respect to the word boundary
-      if (strToNormalize != null && strToNormalize.Length > 0)
+      if (strToNormalize.Length > 0)
       {
         var strCol = strToNormalize.Split(' ');
         var retval = "";
@@ -123,7 +126,7 @@ namespace MB.VS.Extension.CommentMyCode
 
       } // end of if - valid string to normalize
       // If the input is not null then it must be blank, we will just yield it
-      else if (strToNormalize != null)
+      else
         yield return strToNormalize;
     } // end of function - Normalize
     /************************ Fields *****************************************/

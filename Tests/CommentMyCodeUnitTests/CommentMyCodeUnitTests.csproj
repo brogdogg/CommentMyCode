@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\..\CommentMyCode\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
+      <HintPath>..\..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -49,12 +49,21 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringNormalizerTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommentMyCode.csproj">
+      <Project>{4f53bcae-9825-4098-b53c-a354a92be5e7}</Project>
+      <Name>CommentMyCode</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
