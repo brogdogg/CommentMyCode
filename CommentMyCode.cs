@@ -22,7 +22,7 @@ namespace MB.VS.Extension.CommentMyCode
   /// <summary>
   /// Main command handler for comment my code
   /// </summary>
-  public class CommentMyCode
+  public class CommentMyCode : ICommentMyCodeState
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
@@ -56,6 +56,15 @@ namespace MB.VS.Extension.CommentMyCode
         return (MainOptionPage)m_package.GetDialogPage(typeof(MainOptionPage));
       }
     } // end of property - Options
+
+    /*----------------------- Service ---------------------------------------*/
+    /// <summary>
+    /// Gets the package as a service provider
+    /// </summary>
+    public IServiceProvider Service
+    {
+      get { return m_package as IServiceProvider; }
+    } // end of property - Service
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -99,14 +108,6 @@ namespace MB.VS.Extension.CommentMyCode
     /*======================= PROTECTED =====================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
-    /*----------------------- Service ---------------------------------------*/
-    /// <summary>
-    /// Gets the package as a service provider
-    /// </summary>
-    public IServiceProvider Service
-    {
-      get { return m_package as IServiceProvider; }
-    } // end of property - Service
     /************************ Construction ***********************************/
     /*----------------------- CommentMyCode ---------------------------------*/
     /// <summary>
@@ -206,20 +207,6 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- WriteToOutputWindow ---------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    private void WriteToOutputWindow(string str)
-    {
-      IVsOutputWindowPane windowPane = (IVsOutputWindowPane)Service.GetService(typeof(SVsGeneralOutputWindowPane));
-      if(null != windowPane)
-      {
-        windowPane.OutputString(str);
-      } // end of if - window pane is valid
-      return;
-    } // end of function - WriteToOutputWindow
-
     /************************ Fields *****************************************/
     private Package m_package = null;
     private DTE2 m_dte = null;
@@ -278,6 +265,34 @@ namespace MB.VS.Extension.CommentMyCode
     }
 
   } // end of class - CommentMyCodeCmdIDs
+
+
+  /************************** ICommentMyCodeState ****************************/
+  /// <summary>
+  /// Represents the main state for this library
+  /// </summary>
+  public interface ICommentMyCodeState
+  {
+    /************************ Events *****************************************/
+    /************************ Properties *************************************/
+    /// <summary>
+    /// Gets the main VS DTE environment object
+    /// </summary>
+    DTE2 DTE { get; }
+    /// <summary>
+    /// Gets the object responsible for macro expansion
+    /// </summary>
+    IMacroExpander MacroExpander { get; }
+    /// <summary>
+    /// Gets the configuration options
+    /// </summary>
+    MainOptionPage Options { get; }
+    /// <summary>
+    /// Gets the service provider from the VS environment
+    /// </summary>
+    IServiceProvider Service { get; }
+    /************************ Methods ****************************************/
+  } // end of interface - ICommentMyCodeState
 
 
   /************************** SupportedCommandTypeFlag ***********************/

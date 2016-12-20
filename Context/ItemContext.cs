@@ -39,14 +39,14 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// <summary>
     /// Gets the state object
     /// </summary>
-    CommentMyCode State { get; }
+    ICommentMyCodeState State { get; }
     /************************ Methods ****************************************/
     /// <summary>
     /// Initializes with the specified state object
     /// </summary>
     /// <param name="state"></param>
-    void Initialize(CommentMyCode state);
-    void Initialize(CommentMyCode state, SupportedCommandTypeFlag commentType);
+    void Initialize(ICommentMyCodeState state);
+    void Initialize(ICommentMyCodeState state, SupportedCommandTypeFlag commentType);
   } // end of interface - IItemContext
 
 
@@ -93,7 +93,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// <summary>
     /// Gets the state object
     /// </summary>
-    public CommentMyCode State
+    public ICommentMyCodeState State
     {
       get;
       protected set;
@@ -113,7 +113,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// 
     /// </summary>
     /// <param name="state"></param>
-    public ItemContext(CommentMyCode state)
+    public ItemContext(ICommentMyCodeState state)
     {
       Initialize(state);
     } // end of function - ItemContext
@@ -136,7 +136,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// 
     /// </summary>
     /// <param name="state"></param>
-    public void Initialize(CommentMyCode state)
+    public void Initialize(ICommentMyCodeState state)
     {
       Initialize(state, SupportedCommandTypeFlag.Unknown);
     } // end of function - Initialize
@@ -146,7 +146,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// Initializes the object based on the state object
     /// </summary>
     /// <param name="state"></param>
-    public void Initialize(CommentMyCode state, SupportedCommandTypeFlag commentType)
+    public void Initialize(ICommentMyCodeState state, SupportedCommandTypeFlag commentType)
     {
       if (null == (State = state))
         throw new ArgumentNullException("A valid state object must be provided");
