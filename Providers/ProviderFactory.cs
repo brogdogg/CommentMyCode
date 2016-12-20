@@ -85,11 +85,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
-    protected string GetDocExtension(CommentMyCode context)
-    {
-      //context.DTE.ActiveDocument.FullName
-      return null;
-    }
     /*----------------------- ProviderFactory -------------------------------*/
     /// <summary>
     /// 
