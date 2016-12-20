@@ -2,9 +2,9 @@
  * File...: StringNormalizerTest.cs
  * Remarks:
  */
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MB.VS.Extension.CommentMyCode;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace CommentMyCodeUnitTests
@@ -13,7 +13,8 @@ namespace CommentMyCodeUnitTests
 
   /************************** StringNormalizerTest ***************************/
   /// <summary>
-  /// 
+  /// Contains a set of unit tests for verifying the behavior of the
+  /// <see cref="StringNormalizer"/> class
   /// </summary>
   [TestClass]
   public class StringNormalizerTest
@@ -25,7 +26,7 @@ namespace CommentMyCodeUnitTests
     /************************ Methods ****************************************/
     /*----------------------- ConstructsWithDefaults ------------------------*/
     /// <summary>
-    /// 
+    /// Verifies the object constructs with defaults correctly
     /// </summary>
     [TestMethod]
     public void ConstructsWithDefaults()
@@ -37,7 +38,7 @@ namespace CommentMyCodeUnitTests
 
     /*----------------------- ConstructsWithNonDefaults ---------------------*/
     /// <summary>
-    /// 
+    /// Verifies the object constructs with a custom value correctly
     /// </summary>
     [TestMethod]
     public void ConstructsWithNonDefaults()
@@ -50,7 +51,8 @@ namespace CommentMyCodeUnitTests
 
     /*----------------------- NormalizeHandlesNegativeOffset ----------------*/
     /// <summary>
-    /// 
+    /// Ensure the object throws the correct exception when a negative offset
+    /// is utilized for normalizing
     /// </summary>
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
@@ -61,10 +63,10 @@ namespace CommentMyCodeUnitTests
       return;
     } // end of function - NormalizeHandlesNegativeOffset
 
-
     /*----------------------- NormalizeHandlesNull --------------------------*/
     /// <summary>
-    /// 
+    /// Ensure the object throws the correct exception when a null string is
+    /// specified
     /// </summary>
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
@@ -75,10 +77,10 @@ namespace CommentMyCodeUnitTests
       return;
     } // end of function - NormalizeHandlesNull
 
-
     /*----------------------- NormalizeHandlesOutOfRange --------------------*/
     /// <summary>
-    /// 
+    /// Ensure the object throws the correct exception when an offset index
+    /// greater than the max column count is specified
     /// </summary>
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
@@ -91,7 +93,8 @@ namespace CommentMyCodeUnitTests
 
     /*----------------------- NormalizeLongContinuousString -----------------*/
     /// <summary>
-    /// 
+    /// Verify normalization works correctly when the input string is one
+    /// continuous string that is longer than the max column count
     /// </summary>
     [TestMethod]
     public void NormalizeLongContinuousString()
@@ -109,7 +112,8 @@ namespace CommentMyCodeUnitTests
 
     /*----------------------- NormailizeLongString --------------------------*/
     /// <summary>
-    /// 
+    /// Ensure the object can normalize a string longer than the max column
+    /// count
     /// </summary>
     [TestMethod]
     public void NormailizeLongString()
@@ -126,6 +130,10 @@ namespace CommentMyCodeUnitTests
     } // end of function - NormailizeLongString
 
     /*----------------------- NormalizeShortLongContinuousString ------------*/
+    /// <summary>
+    /// Ensure the object can normalize a string that has a long continuous
+    /// word in the middle of a string that goes beyond the max column count
+    /// </summary>
     [TestMethod]
     public void NormalizeShortLongContinuousString()
     {
@@ -140,10 +148,9 @@ namespace CommentMyCodeUnitTests
       return;
     } // end of function - NormalizeShortLongContinuousString
 
-
     /*----------------------- NormalizeShortString --------------------------*/
     /// <summary>
-    /// 
+    /// Ensure the object can normalize a short string
     /// </summary>
     [TestMethod]
     public void NormalizeShortString()
@@ -157,10 +164,6 @@ namespace CommentMyCodeUnitTests
       Assert.AreEqual("test", strs[0]);
       return;
     } // end of function - NormalizeShortString
-
-
-
-
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
