@@ -64,6 +64,7 @@
     <Compile Include="Providers\csharp\CSharpFileCommentProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\ProviderFactory.cs" />
+    <Compile Include="Providers\xml\XmlFileCommentProvider.cs" />
     <Compile Include="StringNormalizer.cs" />
     <Compile Include="UserOptions\Controls\MainOptionPageControl.cs">
       <SubType>UserControl</SubType>
