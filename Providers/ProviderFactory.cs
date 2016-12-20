@@ -115,9 +115,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
-    CompositionContainer m_container = null;
+    private CompositionContainer m_container = null;
     [ImportMany]
-    private IEnumerable<Lazy<ICommentProvider, ICommentProviderData>> m_providers;
+    private IEnumerable<Lazy<ICommentProvider, ICommentProviderData>> m_providers = null;
     /************************ Static *****************************************/
     private static ProviderFactory INSTANCE = null;
   } // end of class - ProviderFactory
