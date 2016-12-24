@@ -23,7 +23,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.Class      // Support class comments
         | SupportedCommandTypeFlag.Enum       // Support enum comments
-        | SupportedCommandTypeFlag.Function   // Support function comments
         | SupportedCommandTypeFlag.Property))]// And support property comments
   [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
   public class CSharpCommentProvider : BaseCommentProvider
