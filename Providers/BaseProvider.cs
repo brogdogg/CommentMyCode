@@ -26,6 +26,17 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- ActiveEditPoint -------------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public EnvDTE.EditPoint ActiveEditPoint
+    {
+      get;
+      protected set;
+    } // end of property - ActiveEditPoint
+
+
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /*----------------------- Comment ---------------------------------------*/
@@ -40,10 +51,10 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       if (!Context.Document.Saved)
         Context.Document.Save();
 
-      EnvDTE.TextDocument td = (EnvDTE.TextDocument)Context.Document.Object("TextDocument");
       // Create a backup, in case there is an exception thrown
-      var sp = td.StartPoint.CreateEditPoint();
-      var ep = td.EndPoint.CreateEditPoint();
+      var sp = Context.Document.GetStartEditPoint();
+      var ep = Context.Document.GetEndEditPoint();
+      ActiveEditPoint = Context.Document.GetActiveEditPoint();
       sp.Copy(ep);
       try
       {
