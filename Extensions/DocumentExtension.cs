@@ -24,6 +24,23 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /*----------------------- GetActiveEditPoint ----------------------------*/
+    /// <summary>
+    /// Gets an edit point referencing the current active point in the document
+    /// </summary>
+    /// <param name="doc">
+    /// A valid <see cref="EnvDTE.Document"/> object
+    /// </param>
+    /// <returns>
+    /// An edit point pointing at the current active point in the document
+    /// </returns>
+    public static EnvDTE.EditPoint GetActiveEditPoint(this EnvDTE.Document doc)
+    {
+      var td = doc.Object("TextDocument") as EnvDTE.TextDocument;
+      var ts = doc.GetTextSelection();
+      return td.CreateEditPoint(ts.ActivePoint);
+    } // end of function - GetActiveEditPoint
+
     /*----------------------- GetEndEditPoint -------------------------------*/
     /// <summary>
     /// Creates a new edit point at the end point of the document
