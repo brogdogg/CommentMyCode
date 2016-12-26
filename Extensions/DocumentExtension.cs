@@ -41,6 +41,28 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
       return td.CreateEditPoint(ts.ActivePoint);
     } // end of function - GetActiveEditPoint
 
+    /*----------------------- GetCodeElementAtActiveEditPoint ---------------*/
+    /// <summary>
+    /// Gets the code element associated with the active edit point for the
+    /// specified code element scope
+    /// </summary>
+    /// <param name="doc">
+    /// The document to search
+    /// </param>
+    /// <param name="scope">
+    /// Scope to look for
+    /// </param>
+    /// <returns>
+    /// The code element for the specified scope at the active point in the
+    /// document
+    /// </returns>
+    public static EnvDTE.CodeElement GetCodeElementAtActiveEditPoint(this EnvDTE.Document doc, EnvDTE.vsCMElement scope)
+    {
+      var fcm = doc.ProjectItem.FileCodeModel;
+      var aep = doc.GetActiveEditPoint();
+      return fcm.CodeElementFromPoint(aep, scope);
+    } // end of function - GetCodeElementAtActiveEditPoint
+
     /*----------------------- GetEndEditPoint -------------------------------*/
     /// <summary>
     /// Creates a new edit point at the end point of the document
