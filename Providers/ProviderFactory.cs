@@ -37,8 +37,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
         .Where(v => (v.Metadata.SupportedCommandTypes & (int)context.CommentType) != 0
                   && v.Metadata.SupportedExtension == context.Extension)
         .SingleOrDefault();
-      if (retval != null && !retval.IsValueCreated)
-        retval.Value.Initialize(context);
+      retval?.Value?.Initialize(context);
       return retval == null ? null : retval.Value;
     } // end of function - BuildProvider
 
