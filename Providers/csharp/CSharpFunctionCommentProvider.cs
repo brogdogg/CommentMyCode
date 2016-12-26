@@ -29,13 +29,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
-    public override vsCMElement CodeElementScope
-    {
-      get
-      {
-        return EnvDTE.vsCMElement.vsCMElementFunction;
-      }
-    }
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -46,16 +39,11 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    protected override void InitializeProvider()
-    {
-      return;
-    }
-
     protected override void Process()
     {
-      Debug.WriteLine("Function: " + this.CodeElement.FullName);
-      Debug.WriteLine("Start Line: " + this.CodeElement.StartPoint.Line);
-      Debug.WriteLine("End line:   " + this.CodeElement.EndPoint.Line);
+      Debug.WriteLine("Function: " + Context.CodeElement.FullName);
+      Debug.WriteLine("Start Line: " + Context.CodeElement.StartPoint.Line);
+      Debug.WriteLine("End line:   " + Context.CodeElement.EndPoint.Line);
     }
 
     /************************ Fields *****************************************/

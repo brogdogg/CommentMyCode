@@ -24,6 +24,10 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /// <summary>
+    /// Gets the code element associated with the context
+    /// </summary>
+    EnvDTE.CodeElement CodeElement { get; }
+    /// <summary>
     /// The <see cref="SupportedCommandTypeFlag"/> flag indicating which state
     /// the document is in
     /// </summary>
@@ -59,6 +63,16 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- CodeElement -----------------------------------*/
+    /// <summary>
+    /// Gets the code element associated with the context
+    /// </summary>
+    public EnvDTE.CodeElement CodeElement
+    {
+      get;
+      protected set;
+    } // end of property - CodeElement
+
     /*----------------------- CommentType -----------------------------------*/
     /// <summary>
     /// Gets the comment type based on the current cursor position
@@ -180,6 +194,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
       Document = null;
       Extension = null;
       CommentType = SupportedCommandTypeFlag.Unknown;
+      CodeElement = null;
       return;
     } // end of function - Dispose
     /*----------------------- ParseCommentType ------------------------------*/
@@ -196,7 +211,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
         // for inspection
         TextPoint tp = sel.ActivePoint;
         // Then check for well-known code elements
-        var ce = tp.GetCodeElement();
+        var ce = this.CodeElement = tp.GetCodeElement();
         if(ce != null)
         {
           switch(ce.Kind)
