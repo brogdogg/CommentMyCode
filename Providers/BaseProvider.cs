@@ -96,7 +96,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// </param>
     protected virtual void InsertLineIntoDoc(EditPoint dp, string msg)
     {
-      InsertIntoDoc(dp, msg + "\n");
+      InsertIntoDoc(dp, msg + Environment.NewLine);
     }
 
     /// <summary>
