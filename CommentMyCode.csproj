@@ -62,6 +62,7 @@
     <Compile Include="Providers\BaseProvider.cs" />
     <Compile Include="Providers\csharp\CSharpCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpFileCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpFunctionCommentProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\ProviderFactory.cs" />
     <Compile Include="Providers\xml\XmlFileCommentProvider.cs" />

@@ -1,8 +1,8 @@
 ﻿/******************************************************************************
- * File...: CSharpCommentProvider.cs
+ * File...: CSharpFunctionCommentProvider.cs
  * Remarks:
  */
-using EnvDTE;
+using MB.VS.Extension.CommentMyCode.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -10,29 +10,31 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnvDTE;
 
 namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 {
 
 
-  /************************** CSharpCommentProvider **************************/
+  /************************** CSharpFunctionCommentProvider ******************/
   /// <summary>
-  /// Provides the logic needed to provide comment support for the C# language
+  /// 
   /// </summary>
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
-    (int)(SupportedCommandTypeFlag.Class      // Support class comments
-        | SupportedCommandTypeFlag.Enum       // Support enum comments
-        | SupportedCommandTypeFlag.Property))]// And support property comments
+    (int)(SupportedCommandTypeFlag.Function))] // Support file comments
   [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
-  public class CSharpCommentProvider : BaseCommentProvider
+  public class CSharpFunctionCommentProvider : BaseCommentProvider
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     public override vsCMElement CodeElementScope
     {
-      get { return vsCMElement.vsCMElementOther; }
+      get
+      {
+        return EnvDTE.vsCMElement.vsCMElementFunction;
+      }
     }
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
@@ -44,24 +46,18 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- InitializeProvider ----------------------------*/
-    /// <summary>
-    /// Initializes this provider
-    /// </summary>
     protected override void InitializeProvider()
     {
-      Debug.WriteLine("CSharpCommentProvider.InitializeProvider-->");
       return;
-    } // end of function - InitializeProvider
+    }
 
-    /*----------------------- Process ---------------------------------------*/
-    /// <summary>
-    /// Comments based on the current comment command type
-    /// </summary>
     protected override void Process()
     {
-      Debug.WriteLine("CSharpCommentProvider.Comment-->");
-    } // end of function - Comment
+      Debug.WriteLine("Function: " + this.CodeElement.FullName);
+      Debug.WriteLine("Start Line: " + this.CodeElement.StartPoint.Line);
+      Debug.WriteLine("End line:   " + this.CodeElement.EndPoint.Line);
+    }
+
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
@@ -72,9 +68,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-  } // end of class - CSharpCommentProvider
+  } // end of class - CSharpFunctionCommentProvider
+
 
 }
 
-
-/* End CSharpCommentProvider.cs */
+/* End CSharpFunctionCommentProvider.cs */

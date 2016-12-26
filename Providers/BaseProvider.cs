@@ -28,7 +28,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Properties *************************************/
     /*----------------------- ActiveEditPoint -------------------------------*/
     /// <summary>
-    /// 
+    /// Gets the active edit point
     /// </summary>
     public EnvDTE.EditPoint ActiveEditPoint
     {
@@ -36,6 +36,28 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       protected set;
     } // end of property - ActiveEditPoint
 
+    /*----------------------- CodeElement -----------------------------------*/
+    /// <summary>
+    /// Gets the code element associated with the active edit point
+    /// </summary>
+    public EnvDTE.CodeElement CodeElement
+    {
+      get;
+      protected set;
+    } // end of property - CodeElement
+
+    /*----------------------- CodeElementScope ------------------------------*/
+    /// <summary>
+    /// Gets the scope of the code element to get, expected that extenders of
+    /// this class to provide the type of element they expect
+    /// </summary>
+#if DEBUG
+#warning We already look at the code element to figure out the kind for figuring out the provider, we could just use that
+#endif
+    public abstract EnvDTE.vsCMElement CodeElementScope
+    {
+      get;
+    } // end of property - CodeElementScope
 
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
@@ -54,7 +76,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       // Create a backup, in case there is an exception thrown
       var sp = Context.Document.GetStartEditPoint();
       var ep = Context.Document.GetEndEditPoint();
-      ActiveEditPoint = Context.Document.GetActiveEditPoint();
       sp.Copy(ep);
       try
       {
@@ -84,6 +105,41 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// Cleans up after processing
     /// </summary>
     protected virtual void Cleanup() { return; }
+
+    /*----------------------- InitializeActiveEditPoint ---------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public virtual void InitializeActiveEditPoint()
+    {
+      ActiveEditPoint = Context.Document.GetActiveEditPoint();
+    } // end of function - InitializeActiveEditPoint
+
+    /*----------------------- InitializeCodeElement -------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    protected virtual void InitializeCodeElement()
+    {
+      this.CodeElement = Context.Document.GetCodeElementAtActiveEditPoint(CodeElementScope);
+      return;
+    } // end of function - InitializeCodeElement
+
+    /*----------------------- InitializeProvider ----------------------------*/
+    /// <summary>
+    /// Overridden to initialize various aspects of the provider that may need
+    /// to be customized based on the provider
+    /// </summary>
+    /// <remarks>
+    /// Initializes the code element property as well as the active edit point
+    /// property
+    /// </remarks>
+    protected override void InitializeProvider()
+    {
+      InitializeActiveEditPoint();
+      InitializeCodeElement();
+      return;
+    } // end of function - InitializeProvider
 
     /// <summary>
     /// Insert the data into the edit point
@@ -142,6 +198,15 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- CodeElementScope ------------------------------*/
+    /// <summary>
+    /// Defaults to <see cref="vsCMElement.vsCMElementOther"/> scope, since we
+    /// are dealing with just a file, not really a code element
+    /// </summary>
+    public override vsCMElement CodeElementScope
+    {
+      get { return vsCMElement.vsCMElementOther; }
+    } // end of property - CodeElementScope
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
@@ -169,9 +234,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// </summary>
     protected override void InitializeProvider()
     {
+      InitializeActiveEditPoint();
       m_normalizer = new StringNormalizer(Context.State.Options.MaxColumnWidth);
     } // end of function - InitializeProvider
-
 
     /*----------------------- Process ---------------------------------------*/
     /// <summary>
@@ -284,6 +349,5 @@ namespace MB.VS.Extension.CommentMyCode.Providers
 
 
 }
-
 
 /* End BaseProvider.cs */
