@@ -11,6 +11,7 @@ using MB.VS.Extension.CommentMyCode.Context;
 using System.Diagnostics;
 using MB.VS.Extension.CommentMyCode.Extensions;
 using EnvDTE;
+using System.Windows;
 
 namespace MB.VS.Extension.CommentMyCode.Providers
 {
@@ -44,29 +45,43 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// </summary>
     public void Comment()
     {
-#if DEBUG
-#warning Currently forcing a save when it is a newly created/added project item, because things are null until saved the first time
-#endif
-      if (!Context.Document.Saved)
-        Context.Document.Save();
+      // Get a reference to the undo context
+      var undoContext = Context.State.DTE.UndoContext;
+      // Check to see if it was already opened
+      bool wasInUndoContext = undoContext.IsOpen;
+      // and we will need a flag indicating if we aborted the edit
+      bool wasAborted = false;
 
-      // Create a backup, in case there is an exception thrown
-      var sp = Context.Document.GetStartEditPoint();
-      var ep = Context.Document.GetEndEditPoint();
-      sp.Copy(ep);
+      // If not already in an undo context, we will open our own
+      if (!wasInUndoContext)
+        undoContext.Open("CommentMyCode.VSIX", false);
+
       try
       {
         Prepare();
         Process();
         Cleanup();
-      }
+      } // end of try - to actually perform the work needed
       catch (Exception exc)
       {
-        ep.EndOfDocument();
-        sp.Delete(ep);
-        sp.Paste();
+        // If we opened our own, then we will go ahead and abort the edit
+        if (!wasInUndoContext)
+        {
+          undoContext.SetAborted();
+          // And indicate we aborted the edit
+          wasAborted = true;
+        }
         Debug.WriteLine("Exception while commenting: " + exc.ToString());
-      }
+        MessageBox.Show(
+          "Error while attempting to provide comments.\n" + exc.ToString(),
+          "Failed to Provide Comment(s)");
+      } // end of catch - Exception
+      finally
+      {
+        // Finally, if we did not abort the undo context then we need to close
+        // it if we opened it initially
+        if (!wasInUndoContext && !wasAborted) undoContext.Close();
+      } // end of finally
       return;
     } // end of function - Comment
 
