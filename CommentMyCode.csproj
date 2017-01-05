@@ -60,6 +60,7 @@
     <Compile Include="MacroExpander\MacroExpander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\BaseProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpClassCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpFileCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpFunctionCommentProvider.cs" />
