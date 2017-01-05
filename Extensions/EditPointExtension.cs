@@ -36,7 +36,7 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /// </param>
     public static void InsertLine(this EnvDTE.EditPoint ep, string data)
     {
-      ep.Insert(data + "\n");
+      ep.Insert(data + Environment.NewLine);
       return;
     } // end of function - InsertLine
     /************************ Fields *****************************************/
