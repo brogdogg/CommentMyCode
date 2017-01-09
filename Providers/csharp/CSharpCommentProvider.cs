@@ -19,10 +19,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   /// <summary>
   /// Provides the logic needed to provide comment support for the C# language
   /// </summary>
-  [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
-  [ExportMetadata("SupportedCommandTypes",
-    (int)(SupportedCommandTypeFlag.Enum))] // And support property comments
-  [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
   public class CSharpCommentProvider : BaseCommentProvider
   {
     /*======================= PUBLIC ========================================*/
