@@ -37,7 +37,38 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       protected set;
     } // end of property - ActiveEditPoint
 
+    /*----------------------- CloseCommentStr -------------------------------*/
+    /// <summary>
+    /// Gets/Sets the string to use to close a comment
+    /// </summary>
+    public string CloseCommentStr
+    {
+      get;
+      set;
+    } // end of property - CloseCommentStr
+
+    /*----------------------- OpenCommentStr --------------------------------*/
+    /// <summary>
+    /// Gets/Sets the string to use to open a comment
+    /// </summary>
+    public string OpenCommentStr
+    {
+      get;
+      set;
+    } // end of property - OpenCommentStr
     /************************ Construction ***********************************/
+    /*----------------------- BaseCommentProvider ---------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="openCommentStr"></param>
+    /// <param name="closeCommentStr"></param>
+    public BaseCommentProvider(string openCommentStr, string closeCommentStr)
+    {
+      CloseCommentStr = closeCommentStr;
+      OpenCommentStr = openCommentStr;
+      return;
+    } // end of function - BaseCommentProvider
     /************************ Methods ****************************************/
     /*----------------------- Comment ---------------------------------------*/
     /// <summary>
@@ -98,6 +129,72 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// </summary>
     protected virtual void Cleanup() { return; }
 
+
+    /*----------------------- FormatPaddingComment --------------------------*/
+    /// <summary>
+    /// Provides a formatted padding comment designed for one line using the
+    /// <see cref="OpenCommentStr"/> and <see cref="CloseCommentStr"/> strings
+    /// for opening/closing the comment
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="padChar"></param>
+    /// <param name="startIndex"></param>
+    /// <returns></returns>
+    protected virtual string FormatPaddingComment(string title, char padChar, int startIndex = 0)
+    {
+      return FormatPaddingComment(OpenCommentStr,
+                                  title,
+                                  padChar,
+                                  CloseCommentStr,
+                                  GetTitleIndex(),
+                                  GetMaxCharCnt(),
+                                  startIndex);
+    } // end of function - FormatPaddingComment
+
+    /*----------------------- FormatPaddingComment --------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="beginCommentStr"></param>
+    /// <param name="title"></param>
+    /// <param name="padChar"></param>
+    /// <param name="endCommentStr"></param>
+    /// <param name="titleIndex"></param>
+    /// <param name="maxChar"></param>
+    /// <param name="startIndex"></param>
+    /// <returns></returns>
+    string FormatPaddingComment(string beginCommentStr,
+                                          string title,
+                                          char padChar,
+                                          string endCommentStr,
+                                          int titleIndex,
+                                          int maxChar,
+                                          int startIndex = 0)
+    {
+      string retval = beginCommentStr;
+      int startPadLen = titleIndex - startIndex - 1;
+      if (startIndex > 1)
+        retval = new string(' ', startIndex - 1);
+      retval += beginCommentStr;
+      var ind = titleIndex - retval.Length - 1;
+      if (ind >= 0)
+        retval += new string(padChar, ind);
+      retval += " " + title + " ";
+      ind = maxChar - retval.Length - endCommentStr.Length - 1;
+      if (ind >= 0) retval += new string(padChar, ind);
+      retval += endCommentStr;
+      if(retval.Length > maxChar)
+      {
+        var tmp = retval.Substring(0, maxChar - 4 - endCommentStr.Length - 1);
+        retval = tmp + "... " + endCommentStr;
+      }
+      return retval;
+    } // end of function - FormatPaddingComment
+
+    protected virtual int GetMaxCharCnt() { return 80; }
+    protected virtual int GetTitleIndex() { return 30; }
+
+
     /*----------------------- InitializeProvider ----------------------------*/
     /// <summary>
     /// Overridden to initialize various aspects of the provider that may need
@@ -113,6 +210,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       return;
     } // end of function - InitializeProvider
 
+    /*----------------------- InsertIntoDoc ---------------------------------*/
     /// <summary>
     /// Insert the data into the edit point
     /// </summary>
@@ -122,8 +220,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     {
       ep.Insert(msg);
       return;
-    }
+    } // end of function - InsertIntoDoc
 
+    /*----------------------- InsertLineIntoDoc -----------------------------*/
     /// <summary>
     /// Inserts a line into the document pointed to by the edit point
     /// </summary>
@@ -136,7 +235,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     protected virtual void InsertLineIntoDoc(EditPoint dp, string msg)
     {
       InsertIntoDoc(dp, msg + Environment.NewLine);
-    }
+    } // end of function - InsertLineIntoDoc
 
     /// <summary>
     /// Prepare for processing
@@ -171,6 +270,18 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
+    /*----------------------- BaseFileCommentProvider -----------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="openCommentStr"></param>
+    /// <param name="closeCommentStr"></param>
+    public BaseFileCommentProvider(string openCommentStr, string closeCommentStr)
+      : base(openCommentStr, closeCommentStr)
+    {
+      return;
+    } // end of function - BaseFileCommentProvider
+
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

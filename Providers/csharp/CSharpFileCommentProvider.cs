@@ -30,6 +30,15 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
+    /*----------------------- CSharpFileCommentProvider ---------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    public CSharpFileCommentProvider() : base("/*", "*/")
+    {
+      return;
+    } // end of function - CSharpFileCommentProvider
+
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
@@ -39,7 +48,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-
     /*----------------------- ProcessFoot -----------------------------------*/
     /// <summary>
     /// Writes out the footer comments for a CSharp file

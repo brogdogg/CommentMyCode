@@ -72,7 +72,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.Function))] // Support file comments
   [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
-  public class CSharpFunctionCommentProvider : BaseCommentProvider
+  public class CSharpFunctionCommentProvider : CSharpCommentProvider
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
@@ -141,20 +141,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
       ep.LineUp();
       ep.InsertLine("");
-      ep.PadToColumn(envDetails.StartLineCharOffset);
-      ep.Insert("/*");
 #if DEBUG
 #warning TODO: Right now the header pad character is static, should be configurable
 #warning TODO: Assumed the pad character should stop at 30, should be configurable
-#endif
-      ep.Insert(new string('-', 30 - ep.LineCharOffset));
-      ep.Insert(" " + envDetails.Name + " ");
-#if DEBUG
 #warning TODO: Assumed the end of the line would be 80, should be configurable
 #warning TODO: Need to guard against really long function names that could go past the end of line, potentially leaving unescaped comment
 #endif
-      ep.Insert(new string('-', 78 - ep.LineCharOffset));
-      ep.Insert("*/");
+      ep.Insert(FormatPaddingComment(envDetails.Name, '-', envDetails.StartLineCharOffset));
       InsertParamComment(envDetails, ep);
       return;
     } // end of function - InsertHeaderComment

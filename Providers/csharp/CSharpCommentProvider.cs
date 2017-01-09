@@ -30,6 +30,15 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
+    /*----------------------- CSharpCommentProvider -------------------------*/
+    /// <summary>
+    /// Builds out the provider
+    /// </summary>
+    public CSharpCommentProvider() : base("/*", "*/")
+    {
+      return;
+    } // end of function - CSharpCommentProvider
+
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

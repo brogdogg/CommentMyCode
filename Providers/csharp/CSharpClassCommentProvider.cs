@@ -17,13 +17,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 
   /************************** CSharpClassCommentProvider *********************/
   /// <summary>
-  /// 
+  /// Provides the logic for providing comments for a C# class
   /// </summary>
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.Class))] // Support class comments
   [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
-  public class CSharpClassCommentProvider : BaseCommentProvider
+  public class CSharpClassCommentProvider : CSharpCommentProvider
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
@@ -36,16 +36,36 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /*======================= PROTECTED =====================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- IsInterface -----------------------------------*/
+    /// <summary>
+    /// Gets/Sets a flag indicating if we are dealing with an interface or not
+    /// </summary>
+    protected bool IsInterface
+    {
+      get;
+      set;
+    } = false; // end of property - IsInterface
+
     /************************ Construction ***********************************/
-    /************************ Methods ****************************************/
+    /*----------------------- InitializeProvider ----------------------------*/
+    /// <summary>
+    /// Initializes the <see cref="IsInterface"/> flag
+    /// </summary>
+    protected override void InitializeProvider()
+    {
+      base.InitializeProvider();
+      IsInterface = (Context.CodeElement as CodeInterface) != null;
+    } // end of function - InitializeProvider
+
     /*----------------------- InsertBodyComment -----------------------------*/
     /// <summary>
-    /// 
+    /// Inserts the body of the comment for the classes and interfaces
     /// </summary>
     protected virtual void InsertBodyComment()
     {
       var accesses = new string[] { "public", "protected", "private" };
       var varTypes = new string[] { "Events", "Properties", "Construction", "Methods", "Fields", "Static" };
+      var varIntTypes = new string[] { "Events", "Properties", "Methods" };
       var ep = Context.CodeElement.EndPoint.CreateEditPoint();
       var endPoint = Context.CodeElement.EndPoint;
       var prop = Context.State.DTE.Properties["TextEditor", "CSharp"];
@@ -53,67 +73,72 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var colPad = endPoint.LineCharOffset - 1 + indentSz;
       ep.LineUp();
       ep.EndOfLine();
-      foreach(var access in accesses)
+      if (IsInterface)
       {
-        ep.InsertLine("");
-        ep.PadToColumn(colPad);
-        ep.Insert("/*");
-        ep.Insert(new string('=', 30 - ep.LineCharOffset));
-        ep.Insert(" " + access.ToUpper() + " ");
-        ep.Insert(new string('=', 78 - ep.LineCharOffset));
-        ep.Insert("*/");
-        foreach(var varType in varTypes)
+        foreach (var varType in varIntTypes)
         {
           ep.InsertLine("");
-          ep.PadToColumn(colPad);
-          ep.Insert("/*");
-          ep.Insert(new string('*', 30 - ep.LineCharOffset));
-          ep.Insert(" " + varType + " ");
-          ep.Insert(new string('*', 78 - ep.LineCharOffset));
-          ep.Insert("*/");
+          ep.Insert(FormatPaddingComment(varType, '*', colPad));
         }
-        ep.InsertLine("");
       }
+      else
+        foreach (var access in accesses)
+        {
+          ep.InsertLine("");
+          ep.Insert(FormatPaddingComment(access.ToUpper(), '*', colPad));
+          foreach (var varType in varTypes)
+          {
+            ep.InsertLine("");
+            ep.Insert(FormatPaddingComment(varType, '*', colPad));
+          }
+          ep.InsertLine("");
+        }
       return;
     } // end of function - InsertBodyComment
 
     /*----------------------- InsertFooterComment ---------------------------*/
     /// <summary>
-    /// 
+    /// Inserts the footer comment for the classes and interfaces
     /// </summary>
     protected virtual void InsertFooterComment()
     {
+      // Create the edit point to work with
       var ep = Context.CodeElement.EndPoint.CreateEditPoint();
+      // et the line data and only do something if the class appears to not
+      // have something already associated with it
       var el = ep.GetLines(ep.Line, ep.Line + 1).Trim();
-      if(el.EndsWith("}"))
+      if (el.EndsWith("}"))
       {
         ep.MoveToLineAndOffset(ep.Line, ep.LineCharOffset);
         ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
         ep.EndOfLine();
-        ep.Insert(" /* End of class - " + Context.CodeElement.Name + " */");
+        if (IsInterface)
+          ep.Insert(" /* End of interface - " + Context.CodeElement.Name + " */");
+        else
+          ep.Insert(" /* End of class - " + Context.CodeElement.Name + " */");
       } // end of if - ends with an expected character
       return;
     } // end of function - InsertFooterComment
 
     /*----------------------- InsertHeaderComment ---------------------------*/
     /// <summary>
-    /// 
+    /// Inserts the header comment of the class/interface
     /// </summary>
     protected virtual void InsertHeaderComment()
     {
+      // Create an edit point to work with
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
       int padVal = Context.CodeElement.StartPoint.LineCharOffset;
       string name = Context.CodeElement.Name;
+      // Move up on line from the code element
       ep.LineUp();
+      // Move to the end of the line
       ep.EndOfLine();
+      // And then insert a new line to start generating the comment on
       ep.InsertLine("");
-      ep.PadToColumn(padVal);
-      ep.Insert("/*");
-      ep.Insert(new string('*', 30 - ep.LineCharOffset));
-      ep.Insert(" " + name + " ");
-      ep.Insert(new string('*', 78 - ep.LineCharOffset));
-      ep.Insert("*/");
-      ep.InsertLine("");
+
+      // Finally insert the actual comments
+      ep.InsertLine(FormatPaddingComment(name, '*', padVal));
       ep.PadToColumn(padVal);
       ep.InsertLine("/// <summary>");
       ep.PadToColumn(padVal);
@@ -125,7 +150,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 
     /*----------------------- Process ---------------------------------------*/
     /// <summary>
-    /// 
+    /// Processes the comment provider, performing the footer first, then body
+    /// and then the header comment
     /// </summary>
     protected sealed override void Process()
     {
