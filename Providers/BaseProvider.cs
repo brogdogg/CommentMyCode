@@ -157,7 +157,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
                                   padChar,
                                   CloseCommentStr,
                                   GetTitleIndex(),
-                                  GetMaxCharCnt(),
+                                  Context.State.Options.MaxColumnWidth,
                                   startIndex);
     } // end of function - FormatPaddingComment
 
@@ -196,9 +196,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       return Normalizer.NormalizeSingleCommentStr(retval);
     } // end of function - FormatPaddingComment
 
-    protected virtual int GetMaxCharCnt() { return 80; }
     protected virtual int GetTitleIndex() { return 30; }
-
 
     /*----------------------- InitializeProvider ----------------------------*/
     /// <summary>
@@ -212,7 +210,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     protected override void InitializeProvider()
     {
       ActiveEditPoint = Context.Document.GetActiveEditPoint();
-      Normalizer = new StringNormalizer(GetMaxCharCnt(), OpenCommentStr, CloseCommentStr);
+      Normalizer = new StringNormalizer(Context.State.Options.MaxColumnWidth,
+                                        OpenCommentStr,
+                                        CloseCommentStr);
       return;
     } // end of function - InitializeProvider
 
