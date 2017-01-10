@@ -50,6 +50,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     protected override void InitializeProvider()
     {
       Debug.WriteLine("CSharpCommentProvider.InitializeProvider-->");
+      base.InitializeProvider();
       return;
     } // end of function - InitializeProvider
 
