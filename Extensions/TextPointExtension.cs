@@ -32,29 +32,20 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /// </summary>
     /// <param name="tp"></param>
     /// <returns></returns>
-    /// <remarks>
-    /// Currently this is a limited method, it only searches for the following
-    /// well known types:
-    ///
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementProperty"/>
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementFunction"/>
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementEnum"/>
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementStruct"/>
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementClass"/>
-    ///   - <see cref="EnvDTE.vsCMElement.vsCMElementInterface"/>
-    ///
-    /// </remarks>
     public static EnvDTE.CodeElement GetCodeElement(this EnvDTE.TextPoint tp)
     {
+      var scopes = Enum.GetValues(typeof(EnvDTE.vsCMElement));
       EnvDTE.CodeElement retval = null;
-      retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementProperty];
-      if (retval == null)
-        if (null == (retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementFunction]))
-          if (null == (retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementEnum]))
-            if (null == (retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementStruct]))
-              if (null == (retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementClass]))
-                retval = tp.CodeElement[EnvDTE.vsCMElement.vsCMElementInterface];
-
+      foreach(var s in scopes)
+      {
+        try
+        {
+          var scope = (EnvDTE.vsCMElement)s;
+          retval = tp.CodeElement[scope];
+          if (retval != null) break;
+        }
+        catch {; }
+      }
       return retval;
     } // end of function - GetCodeElement
 
