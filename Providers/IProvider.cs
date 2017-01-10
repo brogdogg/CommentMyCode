@@ -38,9 +38,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /// <summary>
-    /// Supported file extension
+    /// Supported file extension(s)
     /// </summary>
-    string SupportedExtension { get; }
+    string[] SupportedExtensions { get; }
 
     /// <summary>
     /// Flag indicating the types of <see cref="SupportedCommandTypeFlag"/>

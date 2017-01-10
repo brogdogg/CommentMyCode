@@ -21,7 +21,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.xml
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.File))] // Support file comments
-  [ExportMetadata("SupportedExtension", ".xml")] // works with *.xml files
+  [ExportMetadata("SupportedExtensions", new string[] { ".xml" })] // works with *.cs files
   public class XmlFileCommentProvider : BaseFileCommentProvider
   {
     /*======================= PUBLIC ========================================*/

@@ -35,7 +35,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     {
       var retval = m_providers
         .Where(v => (v.Metadata.SupportedCommandTypes & (int)context.CommentType) != 0
-                  && v.Metadata.SupportedExtension == context.Extension)
+                  && v.Metadata.SupportedExtensions.Contains(context.Extension))
         .SingleOrDefault();
       retval?.Value?.Initialize(context);
       return retval == null ? null : retval.Value;

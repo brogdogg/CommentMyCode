@@ -22,7 +22,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
     (int)(SupportedCommandTypeFlag.Class))] // Support class comments
-  [ExportMetadata("SupportedExtension", ".cs")] // works with *.cs files
+  [ExportMetadata("SupportedExtensions", new string[] { ".cs" })] // works with *.cs files
   public class CSharpClassCommentProvider : CSharpCommentProvider
   {
     /*======================= PUBLIC ========================================*/
