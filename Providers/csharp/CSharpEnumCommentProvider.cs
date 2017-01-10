@@ -38,11 +38,11 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- InsertFooterComment ---------------------------*/
+    /*----------------------- ProcessFooterComments -------------------------*/
     /// <summary>
     /// Inserts the footer 
     /// </summary>
-    protected void InsertFooterComment()
+    protected override void ProcessFooterComments()
     {
       var ep = Context.CodeElement.EndPoint.CreateEditPoint();
       var el = ep.GetLines(ep.Line, ep.Line + 1).Trim();
@@ -54,13 +54,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
         ep.Insert(" /* End of Enum - " + Context.CodeElement.Name + " */");
       } // end of if - 
       return;
-    } // end of function - InsertFooterComment
+    } // end of function - ProcessFooterComments
 
-    /*----------------------- InsertHeaderComment ---------------------------*/
+    /*----------------------- ProcessHeaderComments -------------------------*/
     /// <summary>
     /// 
     /// </summary>
-    protected void InsertHeaderComment()
+    protected override void ProcessHeaderComments()
     {
       // Create an edit point to work with
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
@@ -81,18 +81,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       ep.InsertLine("/// ");
       ep.PadToColumn(padVal);
       ep.Insert("/// </summary>");
-    } // end of function - InsertHeaderComment
+    } // end of function - ProcessHeaderComments
 
-    /*----------------------- Process ---------------------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    protected override void Process()
-    {
-      InsertFooterComment();
-      InsertHeaderComment();
-      return;
-    } // end of function - Process
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

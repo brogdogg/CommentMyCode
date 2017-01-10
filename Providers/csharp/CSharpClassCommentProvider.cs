@@ -57,11 +57,11 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       IsInterface = (Context.CodeElement as CodeInterface) != null;
     } // end of function - InitializeProvider
 
-    /*----------------------- InsertBodyComment -----------------------------*/
+    /*----------------------- ProcessBodyComments ---------------------------*/
     /// <summary>
     /// Inserts the body of the comment for the classes and interfaces
     /// </summary>
-    protected virtual void InsertBodyComment()
+    protected override void ProcessBodyComments()
     {
       var accesses = new string[] { "public", "protected", "private" };
       var varTypes = new string[] { "Events", "Properties", "Construction", "Methods", "Fields", "Static" };
@@ -94,13 +94,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
           ep.InsertLine("");
         }
       return;
-    } // end of function - InsertBodyComment
+    } // end of function - ProcessBodyComments
 
-    /*----------------------- InsertFooterComment ---------------------------*/
+    /*----------------------- ProcessFooterComments -------------------------*/
     /// <summary>
     /// Inserts the footer comment for the classes and interfaces
     /// </summary>
-    protected virtual void InsertFooterComment()
+    protected override void ProcessFooterComments()
     {
       // Create the edit point to work with
       var ep = Context.CodeElement.EndPoint.CreateEditPoint();
@@ -118,13 +118,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
           ep.Insert(" /* End of class - " + Context.CodeElement.Name + " */");
       } // end of if - ends with an expected character
       return;
-    } // end of function - InsertFooterComment
+    } // end of function - ProcessFooterComments
 
-    /*----------------------- InsertHeaderComment ---------------------------*/
+    /*----------------------- ProcessHeaderComments -------------------------*/
     /// <summary>
     /// Inserts the header comment of the class/interface
     /// </summary>
-    protected virtual void InsertHeaderComment()
+    protected override void ProcessHeaderComments()
     {
       // Create an edit point to work with
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
@@ -146,20 +146,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       ep.PadToColumn(padVal);
       ep.Insert("/// </summary>");
       return;
-    } // end of function - InsertHeaderComment
-
-    /*----------------------- Process ---------------------------------------*/
-    /// <summary>
-    /// Processes the comment provider, performing the footer first, then body
-    /// and then the header comment
-    /// </summary>
-    protected sealed override void Process()
-    {
-      InsertFooterComment();
-      InsertBodyComment();
-      InsertHeaderComment();
-      return;
-    } // end of function - Process
+    } // end of function - ProcessHeaderComments
 
     /************************ Fields *****************************************/
     /************************ Static *****************************************/

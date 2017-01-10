@@ -54,14 +54,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       return;
     } // end of function - InitializeProvider
 
-    /*----------------------- Process ---------------------------------------*/
-    /// <summary>
-    /// Comments based on the current comment command type
-    /// </summary>
-    protected override void Process()
-    {
-      Debug.WriteLine("CSharpCommentProvider.Comment-->");
-    } // end of function - Comment
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

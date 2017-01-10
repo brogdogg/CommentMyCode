@@ -100,19 +100,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 #endif
     protected override void Process()
     {
-      var envDet = new EnvDetails(Context);
-      Debug.WriteLine("Function: " + envDet.Name);
-      Debug.WriteLine("Start Line: " + envDet.StartLine);
-      Debug.WriteLine("Start Char: " + envDet.StartLineCharOffset);
-      Debug.WriteLine("End Line:   " + envDet.EndLine);
-      Debug.WriteLine("End Char: " + envDet.EndLineCharOffset);
-      Debug.WriteLine("End Line Length: " + envDet.EndLineLength);
-      // Since the start point also includes any attributes on the method, this
-      // is a simple computation (we just want the previous line)
-      int insertLine = Context.CodeElement.StartPoint.Line - 1;
-
-      Debug.WriteLine("Line to start Insert: " + insertLine);
-
       var prop = Context.State.DTE.Properties["TextEditor", "CSharp"];
       var tabSz = prop.Item("TabSize").Value;
       Debug.WriteLine("TabSize: " + tabSz);
@@ -122,23 +109,67 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 #if DEBUG
 #warning TODO: Really should switch to have the line information update on the fly, so the order doesn't matter
 #endif
-
-      // Make sure we do the footer first, since the line counts will change on
-      // us if we do the header first
-      InsertFooterComment(envDet);
-      // Then do the header comment
-      InsertHeaderComment(envDet);
+      base.Process();
       return;
     } // end of function - Process
 
-    /*----------------------- InsertHeaderComment ---------------------------*/
+    /*----------------------- InsertParamComment ----------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="ep"></param>
+    protected virtual void InsertParamComment(EditPoint ep, int offset)
+    {
+      var f = Context.CodeElement as CodeFunction;
+      Debug.WriteLine("CodeFunction.DocComment (initially): " + f.DocComment);
+      if (f != null)
+      {
+        ep.InsertLine("");
+        ep.PadToColumn(offset);
+        ep.InsertLine("/// <summary>");
+        ep.PadToColumn(offset);
+        ep.InsertLine("/// ");
+        ep.PadToColumn(offset);
+        ep.Insert("/// </summary>");
+        foreach(var parm in f.Parameters)
+        {
+          CodeParameter codeParam = parm as CodeParameter;
+          ep.InsertLine("");
+          ep.PadToColumn(offset);
+          ep.Insert("/// <param name=\"" + codeParam.Name + "\"></param>");
+        }
+        Debug.WriteLine("CodeFunction.DocComment: " + f.DocComment);
+      }
+      return;
+    } // end of function - InsertParamComment
+
+    /*----------------------- ProcessFooterComments -------------------------*/
     /// <summary>
     /// 
     /// </summary>
     /// <param name="envDetails"></param>
-    protected virtual void InsertHeaderComment(EnvDetails envDetails)
+    protected override void ProcessFooterComments()
+    {
+      var ep = Context.CodeElement.EndPoint.CreateEditPoint();
+      var endLine = ep.GetLines(ep.Line, ep.Line + 1).Trim();
+      if (endLine.EndsWith("}"))
+      {
+        ep.MoveToLineAndOffset(ep.Line, ep.LineCharOffset);
+        ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
+        ep.EndOfLine();
+        ep.Insert(" /* End of function - " + Context.CodeElement.Name + " */");
+      }
+      return;
+    } // end of function - ProcessFooterComments
+
+    /*----------------------- ProcessHeaderComments -------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    protected override void ProcessHeaderComments()
     {
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
+      int offset = ep.LineCharOffset;
       ep.LineUp();
       ep.InsertLine("");
 #if DEBUG
@@ -147,59 +178,10 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 #warning TODO: Assumed the end of the line would be 80, should be configurable
 #warning TODO: Need to guard against really long function names that could go past the end of line, potentially leaving unescaped comment
 #endif
-      ep.Insert(FormatPaddingComment(envDetails.Name, '-', envDetails.StartLineCharOffset));
-      InsertParamComment(envDetails, ep);
+      ep.Insert(FormatPaddingComment(Context.CodeElement.Name, '-', offset));
+      InsertParamComment(ep, offset);
       return;
-    } // end of function - InsertHeaderComment
-
-    /*----------------------- InsertParamComment ----------------------------*/
-    protected virtual void InsertParamComment(EnvDetails envDetails, EditPoint ep)
-    {
-      var f = Context.CodeElement as CodeFunction;
-      Debug.WriteLine("CodeFunction.DocComment (initially): " + f.DocComment);
-      if (f != null)
-      {
-        ep.InsertLine("");
-        ep.PadToColumn(envDetails.StartLineCharOffset);
-        ep.InsertLine("/// <summary>");
-        ep.PadToColumn(envDetails.StartLineCharOffset);
-        ep.InsertLine("/// ");
-        ep.PadToColumn(envDetails.StartLineCharOffset);
-        ep.Insert("/// </summary>");
-        foreach(var parm in f.Parameters)
-        {
-          CodeParameter codeParam = parm as CodeParameter;
-          ep.InsertLine("");
-          ep.PadToColumn(envDetails.StartLineCharOffset);
-          ep.Insert("/// <param name=\"" + codeParam.Name + "\"></param>");
-        }
-        Debug.WriteLine("CodeFunction.DocComment: " + f.DocComment);
-      }
-      //f.Parameters
-      return;
-    } // end of function - InsertParamComment
-
-
-    /*----------------------- InsertFooterComment ---------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="envDetails"></param>
-    protected virtual void InsertFooterComment(EnvDetails envDetails)
-    {
-      var ep = Context.CodeElement.EndPoint.CreateEditPoint();
-      var endLine = ep.GetLines(envDetails.EndLine, envDetails.EndLine + 1).Trim();
-      if (endLine.EndsWith("}"))
-      {
-        ep.MoveToLineAndOffset(envDetails.EndLine, envDetails.EndLineCharOffset);
-        ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
-        ep.EndOfLine();
-        ep.Insert(" /* End of function - " + envDetails.Name + " */");
-      }
-      return;
-    } // end of function - InsertFooterComment
-
-
+    } // end of function - ProcessHeaderComments
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

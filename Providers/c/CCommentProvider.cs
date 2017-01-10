@@ -20,7 +20,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.c
   /// </summary>
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
-    (int)(SupportedCommandTypeFlag.Function))] // Support file comments
+    (int)(SupportedCommandTypeFlag.Class))] // Support file comments
   [ExportMetadata("SupportedExtensions", new string[] { ".cpp", ".c", ".h", ".hpp" })] // works with *.cs files
   public class CCommentProvider : BaseCommentProvider
   {
@@ -45,15 +45,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.c
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- Process ---------------------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    protected override void Process()
-    {
-      Debug.WriteLine("CCommentProvider.Process-->");
-      Debug.WriteLine("CCommentProvider.Process<--");
-    } // end of function - Process
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 

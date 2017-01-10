@@ -251,7 +251,17 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// <summary>
     /// Process
     /// </summary>
-    protected abstract void Process();
+    protected virtual void Process()
+    {
+      ProcessFooterComments();
+      ProcessBodyComments();
+      ProcessHeaderComments();
+      return;
+    }
+
+    protected virtual void ProcessBodyComments() {; }
+    protected virtual void ProcessFooterComments() {; }
+    protected virtual void ProcessHeaderComments() {; }
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
