@@ -32,6 +32,20 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- ElementNameOffset -----------------------------*/
+    /// <summary>
+    /// Gets/Sets the column offset of the last padding character in a special
+    /// single line format padded comment for elements
+    /// </summary>
+    [Category("Main")]
+    [DisplayName("Element Name Offset")]
+    [Description("Column offset just past the last padding character")]
+    public int ElementNameOffset
+    {
+      get;
+      set;
+    } // end of property - ElementNameOffset
+
     /*----------------------- FileHeaderTemplate ----------------------------*/
     /// <summary>
     /// Gets/Sets the file header template for comments
@@ -91,6 +105,7 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions
     {
       if(e.ApplyBehavior == ApplyKind.Apply)
       {
+        ElementNameOffset = (int)m_control.uxElementNameOffsetNumericUpDown.Value;
         MaxColumnWidth = (int)m_control.uxMaxColNumUpDown.Value;
         FileHeaderTemplate = m_control.uxTemplateDataTextBox.Text;
       }

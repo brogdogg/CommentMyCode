@@ -152,12 +152,13 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// <returns></returns>
     protected virtual string FormatPaddingComment(string title, char padChar, int startIndex = 0)
     {
+      var opt = Context.State.Options;
       return FormatPaddingComment(OpenCommentStr,
                                   title,
                                   padChar,
                                   CloseCommentStr,
-                                  GetTitleIndex(),
-                                  Context.State.Options.MaxColumnWidth,
+                                  opt.ElementNameOffset,
+                                  opt.MaxColumnWidth,
                                   startIndex);
     } // end of function - FormatPaddingComment
 
@@ -195,8 +196,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       retval += endCommentStr;
       return Normalizer.NormalizeSingleCommentStr(retval);
     } // end of function - FormatPaddingComment
-
-    protected virtual int GetTitleIndex() { return 30; }
 
     /*----------------------- InitializeProvider ----------------------------*/
     /// <summary>

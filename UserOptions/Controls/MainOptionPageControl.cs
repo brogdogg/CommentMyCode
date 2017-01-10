@@ -43,6 +43,8 @@ namespace MB.VS.Extension.CommentMyCode.UserOptions.Controls
     public void Initialize()
     {
       uxMaxColNumUpDown.Value = mainOptionPage.MaxColumnWidth;
+      uxElementNameOffsetNumericUpDown.Value =
+        mainOptionPage.ElementNameOffset;
       uxTemplateDataTextBox.Text = mainOptionPage.FileHeaderTemplate;
     } // end of function - Initialize
 
