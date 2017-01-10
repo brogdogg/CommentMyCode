@@ -37,6 +37,16 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       protected set;
     } // end of property - ActiveEditPoint
 
+    /*----------------------- Normalizer ------------------------------------*/
+    /// <summary>
+    /// Gets/Sets a normalizer to use for strings
+    /// </summary>
+    public StringNormalizer Normalizer
+    {
+      get;
+      set;
+    } = null;// end of property - Normalizer
+
     /*----------------------- CloseCommentStr -------------------------------*/
     /// <summary>
     /// Gets/Sets the string to use to close a comment
@@ -183,12 +193,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
       ind = maxChar - retval.Length - endCommentStr.Length - 1;
       if (ind >= 0) retval += new string(padChar, ind);
       retval += endCommentStr;
-      if(retval.Length > maxChar)
-      {
-        var tmp = retval.Substring(0, maxChar - 4 - endCommentStr.Length - 1);
-        retval = tmp + "... " + endCommentStr;
-      }
-      return retval;
+      return Normalizer.NormalizeSingleCommentStr(retval);
     } // end of function - FormatPaddingComment
 
     protected virtual int GetMaxCharCnt() { return 80; }
@@ -207,6 +212,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     protected override void InitializeProvider()
     {
       ActiveEditPoint = Context.Document.GetActiveEditPoint();
+      Normalizer = new StringNormalizer(GetMaxCharCnt(), OpenCommentStr, CloseCommentStr);
       return;
     } // end of function - InitializeProvider
 
@@ -289,29 +295,9 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /*======================= PROTECTED =====================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
-    /*----------------------- Normalizer ------------------------------------*/
-    /// <summary>
-    /// Gets the normalizer to use for normalizing strings for a max column
-    /// width
-    /// </summary>
-    protected StringNormalizer Normalizer
-    {
-      get { return m_normalizer; }
-    } // end of property - Normalizer
 
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- InitializeProvider ----------------------------*/
-    /// <summary>
-    /// Initializes the base file comment provider to create the string
-    /// normalizer
-    /// </summary>
-    protected override void InitializeProvider()
-    {
-      base.InitializeProvider();
-      m_normalizer = new StringNormalizer(Context.State.Options.MaxColumnWidth);
-    } // end of function - InitializeProvider
-
     /*----------------------- Process ---------------------------------------*/
     /// <summary>
     /// 
@@ -357,7 +343,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
-    StringNormalizer m_normalizer = null;
     /************************ Static *****************************************/
   } // end of class - BaseFileCommentProvider
 

@@ -22,6 +22,16 @@ namespace MB.VS.Extension.CommentMyCode
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
+    /*----------------------- CloseCommentStr -------------------------------*/
+    /// <summary>
+    /// Gets/Sets the close comment string
+    /// </summary>
+    public string CloseCommentStr
+    {
+      get;
+      set;
+    } = null; // end of property - CloseCommentStr
+
     /*----------------------- MaxColumnCount --------------------------------*/
     /// <summary>
     /// Gets the maximum column count, where the word boundary is, any words
@@ -32,6 +42,18 @@ namespace MB.VS.Extension.CommentMyCode
       get;
       protected set;
     } // end of property - MaxColumnCount
+
+    /*----------------------- OpenCommentStr --------------------------------*/
+    /// <summary>
+    /// Gets/Sets the open comment string
+    /// </summary>
+    public string OpenCommentStr
+    {
+      get;
+      set;
+    } = null; // end of property - OpenCommentStr
+
+
     /************************ Construction ***********************************/
     /*----------------------- StringNormalizer ------------------------------*/
     /// <summary>
@@ -40,9 +62,11 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="maxColCnt">
     /// Optional maximum column count for a word boundary, default is 80
     /// </param>
-    public StringNormalizer(int maxColCnt = 80)
+    public StringNormalizer(int maxColCnt = 80, string openCommentStr = null, string closeCommentStr = null)
     {
+      CloseCommentStr = closeCommentStr;
       MaxColumnCount = maxColCnt;
+      OpenCommentStr = openCommentStr;
       return;
     } // end of function - StringNormalizer
     /************************ Methods ****************************************/
@@ -65,6 +89,7 @@ namespace MB.VS.Extension.CommentMyCode
     {
       return Normalize(strToNormalize, 0);
     } // end of function - Normalize
+
 
     /*----------------------- Normalize -------------------------------------*/
     /// <summary>
@@ -129,6 +154,27 @@ namespace MB.VS.Extension.CommentMyCode
       else
         yield return strToNormalize;
     } // end of function - Normalize
+
+    /*----------------------- NormalizeSingleCommentStr ---------------------*/
+    /// <summary>
+    /// Normalizes a string assumed to be a single line comment, taking into
+    /// account the <see cref="CloseCommentStr"/> string when normalizing
+    /// </summary>
+    /// <param name="strToNormalize">
+    /// String to normalize
+    /// </param>
+    /// <returns></returns>
+    public virtual string NormalizeSingleCommentStr(string strToNormalize)
+    {
+      var retval = strToNormalize;
+      var closeCommentStrLen = CloseCommentStr == null ? 0 : CloseCommentStr.Length;
+      if(strToNormalize.Length > MaxColumnCount)
+      {
+        var tmp = strToNormalize.Substring(0, MaxColumnCount - 4 - closeCommentStrLen - 1);
+        retval = tmp + "... " + CloseCommentStr;
+      }
+      return retval;
+    } // end of function - NormalizeSingleCommentStr
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
 
