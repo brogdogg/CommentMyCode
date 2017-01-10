@@ -38,24 +38,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
-    /*----------------------- ProcessFooterComments -------------------------*/
-    /// <summary>
-    /// Inserts the footer 
-    /// </summary>
-    protected override void ProcessFooterComments()
-    {
-      var ep = Context.CodeElement.EndPoint.CreateEditPoint();
-      var el = ep.GetLines(ep.Line, ep.Line + 1).Trim();
-      if(el.EndsWith("}"))
-      {
-        ep.MoveToLineAndOffset(ep.Line, ep.LineCharOffset);
-        ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
-        ep.EndOfLine();
-        ep.Insert(" /* End of Property - " + Context.CodeElement.Name + " */");
-      } // end of if - 
-      return;
-    } // end of function - ProcessFooterComments
-
     /*----------------------- ProcessHeaderComments -------------------------*/
     /// <summary>
     /// 
@@ -64,7 +46,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
     {
       // Create an edit point to work with
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
-      int padVal = Context.CodeElement.StartPoint.LineCharOffset;
+      int padVal = ep.LineCharOffset;
       string name = Context.CodeElement.Name;
       // Move up on line from the code element
       ep.LineUp();

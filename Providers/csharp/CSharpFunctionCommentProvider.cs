@@ -143,25 +143,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       return;
     } // end of function - InsertParamComment
 
-    /*----------------------- ProcessFooterComments -------------------------*/
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="envDetails"></param>
-    protected override void ProcessFooterComments()
-    {
-      var ep = Context.CodeElement.EndPoint.CreateEditPoint();
-      var endLine = ep.GetLines(ep.Line, ep.Line + 1).Trim();
-      if (endLine.EndsWith("}"))
-      {
-        ep.MoveToLineAndOffset(ep.Line, ep.LineCharOffset);
-        ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
-        ep.EndOfLine();
-        ep.Insert(" /* End of function - " + Context.CodeElement.Name + " */");
-      }
-      return;
-    } // end of function - ProcessFooterComments
-
     /*----------------------- ProcessHeaderComments -------------------------*/
     /// <summary>
     /// 

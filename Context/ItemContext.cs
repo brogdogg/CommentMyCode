@@ -226,7 +226,7 @@ namespace MB.VS.Extension.CommentMyCode.Context
               CommentType = SupportedCommandTypeFlag.Function;
               break;
             case vsCMElement.vsCMElementInterface:
-              CommentType = SupportedCommandTypeFlag.Class;
+              CommentType = SupportedCommandTypeFlag.Interface;
               break;
             case vsCMElement.vsCMElementProperty:
               CommentType = SupportedCommandTypeFlag.Property;

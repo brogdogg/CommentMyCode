@@ -21,7 +21,8 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
   /// </summary>
   [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
   [ExportMetadata("SupportedCommandTypes",
-    (int)(SupportedCommandTypeFlag.Class))] // Support class comments
+    (int)(SupportedCommandTypeFlag.Class
+    | SupportedCommandTypeFlag.Interface))] // Support class comments
   [ExportMetadata("SupportedExtensions", new string[] { ".cs" })] // works with *.cs files
   public class CSharpClassCommentProvider : CSharpCommentProvider
   {
@@ -95,30 +96,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
         }
       return;
     } // end of function - ProcessBodyComments
-
-    /*----------------------- ProcessFooterComments -------------------------*/
-    /// <summary>
-    /// Inserts the footer comment for the classes and interfaces
-    /// </summary>
-    protected override void ProcessFooterComments()
-    {
-      // Create the edit point to work with
-      var ep = Context.CodeElement.EndPoint.CreateEditPoint();
-      // et the line data and only do something if the class appears to not
-      // have something already associated with it
-      var el = ep.GetLines(ep.Line, ep.Line + 1).Trim();
-      if (el.EndsWith("}"))
-      {
-        ep.MoveToLineAndOffset(ep.Line, ep.LineCharOffset);
-        ep.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsHorizontal);
-        ep.EndOfLine();
-        if (IsInterface)
-          ep.Insert(" /* End of interface - " + Context.CodeElement.Name + " */");
-        else
-          ep.Insert(" /* End of class - " + Context.CodeElement.Name + " */");
-      } // end of if - ends with an expected character
-      return;
-    } // end of function - ProcessFooterComments
 
     /*----------------------- ProcessHeaderComments -------------------------*/
     /// <summary>
