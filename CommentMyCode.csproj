@@ -67,8 +67,11 @@
     <Compile Include="Providers\csharp\CSharpFunctionCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpPropertyCommentProvider.cs" />
     <Compile Include="Providers\c\CCommentProvider.cs" />
+    <Compile Include="Providers\c\CFunctionCommentProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Providers\ProviderFactory.cs" />
+    <Compile Include="Providers\py\PYCommentProvider.cs" />
+    <Compile Include="Providers\py\PYFunctionCommentProvider.cs" />
     <Compile Include="Providers\xml\XmlFileCommentProvider.cs" />
     <Compile Include="StringNormalizer.cs" />
     <Compile Include="UserOptions\Controls\MainOptionPageControl.cs">
