@@ -49,8 +49,7 @@ namespace CommentMyCodeUnitTests
     [TestMethod]
     public void ConstructsWithState()
     {
-      throw new NotImplementedException();
-      /*
+      //throw new NotImplementedException();
       var state = Substitute.For<ICommentMyCodeState>();
       var dte = Substitute.For<EnvDTE80.DTE2>();
       var doc = Substitute.For<EnvDTE.Document>();
@@ -70,7 +69,6 @@ namespace CommentMyCodeUnitTests
       Assert.AreEqual(ic.CommentType, SupportedCommandTypeFlag.Property);
       Assert.AreEqual(ic.Document, doc);
       return;
-      */
     } // end of function - ConstructsWithState
 
 
