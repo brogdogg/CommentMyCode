@@ -86,7 +86,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
         foreach (var access in accesses)
         {
           ep.InsertLine("");
-          ep.Insert(FormatPaddingComment(access.ToUpper(), '*', colPad));
+          ep.Insert(FormatPaddingComment(access.ToUpper(), '=', colPad));
           foreach (var varType in varTypes)
           {
             ep.InsertLine("");

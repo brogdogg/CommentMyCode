@@ -93,6 +93,11 @@
       this.uxElementNameOffsetNumericUpDown.Name = "uxElementNameOffsetNumericUpDown";
       this.uxElementNameOffsetNumericUpDown.Size = new System.Drawing.Size(42, 20);
       this.uxElementNameOffsetNumericUpDown.TabIndex = 5;
+      this.uxElementNameOffsetNumericUpDown.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
       // 
       // MainOptionPageControl
       // 

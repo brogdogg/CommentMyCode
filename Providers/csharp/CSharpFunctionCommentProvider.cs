@@ -152,6 +152,7 @@ namespace MB.VS.Extension.CommentMyCode.Providers.csharp
       var ep = Context.CodeElement.StartPoint.CreateEditPoint();
       int offset = ep.LineCharOffset;
       ep.LineUp();
+      ep.EndOfLine();
       ep.InsertLine("");
 #if DEBUG
 #warning TODO: Right now the header pad character is static, should be configurable
