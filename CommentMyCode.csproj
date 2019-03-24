@@ -53,8 +53,36 @@
   <ItemGroup>
     <Compile Include="CommentMyCode.cs" />
     <Compile Include="CommentMyCodePackage.cs" />
+    <Compile Include="Context\ItemContext.cs" />
+    <Compile Include="Extensions\EditPointExtension.cs" />
+    <Compile Include="Extensions\TextPointExtension.cs" />
+    <Compile Include="Extensions\DocumentExtension.cs" />
+    <Compile Include="MacroExpander\MacroExpander.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\IProvider.cs" />
+    <Compile Include="Providers\BaseProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpClassCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpEnumCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpFileCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpFunctionCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpPropertyCommentProvider.cs" />
+    <Compile Include="Providers\c\CCommentProvider.cs" />
+    <Compile Include="Providers\c\CFunctionCommentProvider.cs" />
+    <Compile Include="Providers\IProvider.cs" />
+    <Compile Include="Providers\ProviderFactory.cs" />
+    <Compile Include="Providers\py\PYCommentProvider.cs" />
+    <Compile Include="Providers\py\PYFunctionCommentProvider.cs" />
+    <Compile Include="Providers\xml\XmlFileCommentProvider.cs" />
+    <Compile Include="StringNormalizer.cs" />
+    <Compile Include="UserOptions\Controls\MainOptionPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserOptions\Controls\MainOptionPageControl.Designer.cs">
+      <DependentUpon>MainOptionPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserOptions\MainOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -165,17 +193,24 @@
       <HintPath>packages\Microsoft.VisualStudio.Validation.14.1.111\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UserOptions\Controls\MainOptionPageControl.resx">
+      <DependentUpon>MainOptionPageControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
