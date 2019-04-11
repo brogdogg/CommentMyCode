@@ -1,60 +1,43 @@
 ﻿/******************************************************************************
- * File...: TextPointExtension.cs
+ * File...: ObjectExtension.cs
  * Remarks:
  */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MB.VS.Extension.CommentMyCode.Extensions
+namespace CommentMyCodeUnitTests.Extensions
 {
 
 
-  /************************** TextPointExtension *****************************/
+  /************************** ObjectExtension **************************************/
   /// <summary>
-  /// Provides various extension methods for the <see cref="EnvDTE.TextPoint"/>
-  /// object
+  /// 
   /// </summary>
-  public static class TextPointExtension
+  public static class ObjectExtension
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
     /************************ Properties *************************************/
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
+    /*----------------------- SetNonPublicProperty --------------------------*/
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="propertyName"></param>
+    /// <param name="value"></param>
+    public static void SetNonPublicProperty(this object obj, string propertyName, object value)
+    {
+      var type = obj.GetType();
+      var info = type.GetProperty(propertyName, System.Reflection.BindingFlags.SetProperty);
+      if (info != null)
+        info.SetValue(obj, value);
+      return;
+    } // end of function - SetNonPublicProperty
+
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-    /*----------------------- GetCodeElement --------------------------------*/
-    /// <summary>
-    /// Gets the <see cref="EnvDTE.CodeElement"/> of the text point
-    /// </summary>
-    /// <param name="tp"></param>
-    /// <returns></returns>
-    public static EnvDTE.CodeElement GetCodeElement(this EnvDTE.TextPoint tp)
-    {
-      var scopes = new List<EnvDTE.vsCMElement>()
-        {
-          EnvDTE.vsCMElement.vsCMElementFunction,
-          EnvDTE.vsCMElement.vsCMElementProperty,
-          EnvDTE.vsCMElement.vsCMElementEnum,
-          EnvDTE.vsCMElement.vsCMElementClass,
-          EnvDTE.vsCMElement.vsCMElementInterface,
-        };
-      EnvDTE.CodeElement retval = null;
-      foreach(var s in scopes)
-      {
-        try
-        {
-          var scope = (EnvDTE.vsCMElement)s;
-          retval = tp.CodeElement[scope];
-          if (retval != null) break;
-        }
-        catch {; }
-      }
-      return retval;
-    } // end of function - GetCodeElement
 
     /*======================= PROTECTED =====================================*/
     /************************ Events *****************************************/
@@ -71,10 +54,9 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-  } // end of class - CodeElementExtension
-
+  } // end of class - ObjectExtension
 
 }
 
 
-/* End CodeElementExtension.cs */
+/* End ObjectExtension.cs */

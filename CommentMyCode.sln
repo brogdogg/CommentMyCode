@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCode", "CommentMyCode.csproj", "{4F53BCAE-9825-4098-B53C-A354A92BE5E7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BFD689EA-26BE-4616-B34C-2CC474691837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCode", "CommentMyCode.csproj", "{4F53BCAE-9825-4098-B53C-A354A92BE5E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCodeUnitTests", "Tests\CommentMyCodeUnitTests\CommentMyCodeUnitTests.csproj", "{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}"
 EndProject
@@ -29,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B} = {BFD689EA-26BE-4616-B34C-2CC474691837}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76858BDA-5870-4276-8254-E800D851E48E}
 	EndGlobalSection
 EndGlobal

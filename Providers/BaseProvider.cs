@@ -175,12 +175,12 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /// <param name="startIndex"></param>
     /// <returns></returns>
     string FormatPaddingComment(string beginCommentStr,
-                                          string title,
-                                          char padChar,
-                                          string endCommentStr,
-                                          int titleIndex,
-                                          int maxChar,
-                                          int startIndex = 0)
+                                string title,
+                                char padChar,
+                                string endCommentStr,
+                                int titleIndex,
+                                int maxChar,
+                                int startIndex = 0)
     {
       string retval = beginCommentStr;
       int startPadLen = titleIndex - startIndex - 1;
