@@ -230,6 +230,9 @@ namespace MB.VS.Extension.CommentMyCode.Context
               case vsCMElement.vsCMElementProperty:
                 CommentType = SupportedCommandTypeFlag.Property;
                 break;
+              case vsCMElement.vsCMElementNamespace:
+                CommentType = SupportedCommandTypeFlag.Namespace;
+                break;
               default:
                 CommentType = SupportedCommandTypeFlag.Unknown;
                 break;

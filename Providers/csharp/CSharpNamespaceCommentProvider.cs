@@ -1,23 +1,25 @@
 ﻿/******************************************************************************
- * File...: TextPointExtension.cs
- * Remarks:
+ * File...: CSharpNamespaceCommentProvider.cs
+ * Remarks: ICommentProvider for C# namespace items.
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.Composition;
 
-namespace MB.VS.Extension.CommentMyCode.Extensions
+namespace MB.VS.Extension.CommentMyCode.Providers.csharp
 {
-
-
-  /************************** TextPointExtension *****************************/
+  /************************** CSharpNamespaceCommentProvider *****************/
   /// <summary>
-  /// Provides various extension methods for the <see cref="EnvDTE.TextPoint"/>
-  /// object
+  /// Provides commenting for C# namespaces
   /// </summary>
-  public static class TextPointExtension
+  /// <remarks>
+  /// The <see cref="CSharpCommentProvider.ProcessFooterComments"/> method
+  /// should process the end of namespace as expected. At this point the
+  /// class is only provided to support the namespace command type.
+  /// </remarks>
+  [Export(typeof(ICommentProvider))] // Indicate we implement ICommentProvider
+  [ExportMetadata("SupportedCommandTypes",
+    (int)(SupportedCommandTypeFlag.Namespace))]
+  [ExportMetadata("SupportedExtensions", new string[] { ".cs" })]
+  public class CSharpNamespaceCommentProvider : CSharpCommentProvider
   {
     /*======================= PUBLIC ========================================*/
     /************************ Events *****************************************/
@@ -26,36 +28,6 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-    /*----------------------- GetCodeElement --------------------------------*/
-    /// <summary>
-    /// Gets the <see cref="EnvDTE.CodeElement"/> of the text point
-    /// </summary>
-    /// <param name="tp"></param>
-    /// <returns></returns>
-    public static EnvDTE.CodeElement GetCodeElement(this EnvDTE.TextPoint tp)
-    {
-      var scopes = new List<EnvDTE.vsCMElement>()
-        {
-          EnvDTE.vsCMElement.vsCMElementFunction,
-          EnvDTE.vsCMElement.vsCMElementProperty,
-          EnvDTE.vsCMElement.vsCMElementEnum,
-          EnvDTE.vsCMElement.vsCMElementClass,
-          EnvDTE.vsCMElement.vsCMElementInterface,
-          EnvDTE.vsCMElement.vsCMElementNamespace,
-        };
-      EnvDTE.CodeElement retval = null;
-      foreach(var s in scopes)
-      {
-        try
-        {
-          var scope = (EnvDTE.vsCMElement)s;
-          retval = tp.CodeElement[scope];
-          if (retval != null) break;
-        }
-        catch {; }
-      }
-      return retval;
-    } // end of function - GetCodeElement
 
     /*======================= PROTECTED =====================================*/
     /************************ Events *****************************************/
@@ -72,10 +44,8 @@ namespace MB.VS.Extension.CommentMyCode.Extensions
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
-  } // end of class - CodeElementExtension
 
+  } /* End of Class - CSharpNamespaceCommentProvider */
 
-}
-
-
-/* End CodeElementExtension.cs */
+} /* End of Namespace - MB.VS.Extension.CommentMyCode.Providers.csharp */
+/* End of document - CSharpNamespaceCommentProvider.cs */
