@@ -270,7 +270,6 @@ namespace MB.VS.Extension.CommentMyCode.Providers
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
-    string[] m_originalLines = null;
     /************************ Static *****************************************/
   } // end of class - BaseCommentProvider
 

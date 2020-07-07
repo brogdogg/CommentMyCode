@@ -85,6 +85,7 @@
     <Compile Include="Providers\csharp\CSharpEnumCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpFileCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpFunctionCommentProvider.cs" />
+    <Compile Include="Providers\csharp\CSharpNamespaceCommentProvider.cs" />
     <Compile Include="Providers\csharp\CSharpPropertyCommentProvider.cs" />
     <Compile Include="Providers\c\CCommentProvider.cs" />
     <Compile Include="Providers\c\CFunctionCommentProvider.cs" />
