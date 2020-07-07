@@ -9,7 +9,6 @@ using MB.VS.Extension.CommentMyCode.MacroExpander;
 using MB.VS.Extension.CommentMyCode.Providers;
 using MB.VS.Extension.CommentMyCode.UserOptions;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
@@ -333,8 +332,11 @@ namespace MB.VS.Extension.CommentMyCode
     /// <summary>
     /// Struct object
     /// </summary>
-    Struct =   0x0040
-
+    Struct =   0x0040,
+    /// <summary>
+    /// Namespace object
+    /// </summary>
+    Namespace = 0x0080
   } // end of enum - SupportedCommandTypeFlag
 
 
