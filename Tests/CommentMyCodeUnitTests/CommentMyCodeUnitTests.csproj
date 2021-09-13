@@ -79,9 +79,9 @@
     <Compile Include="StringNormalizerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommentMyCode.csproj">
+    <ProjectReference Include="..\..\src\CommentMyCode.Dev16\CommentMyCode.Dev16.csproj">
       <Project>{4f53bcae-9825-4098-b53c-a354a92be5e7}</Project>
-      <Name>CommentMyCode</Name>
+      <Name>CommentMyCode.Dev16</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
