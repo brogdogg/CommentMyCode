@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
  * File...: CommentMyCode.cs
  * Remarks:
  */
@@ -15,8 +15,6 @@ using System.Diagnostics;
 
 namespace MB.VS.Extension.CommentMyCode
 {
-
-
   /************************** CommentMyCode **********************************/
   /// <summary>
   /// Main command handler for comment my code
@@ -119,8 +117,7 @@ namespace MB.VS.Extension.CommentMyCode
       IServiceProvider provider = package as IServiceProvider;
       m_dte = (DTE2)provider.GetService(typeof(DTE));
 
-      var menu = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-      if (null != menu)
+      if (provider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService menu)
       {
         AddCommentCommands(menu);
       } // end of if - valid menu
@@ -207,9 +204,9 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Construction ***********************************/
     /************************ Methods ****************************************/
     /************************ Fields *****************************************/
-    private Package m_package = null;
-    private DTE2 m_dte = null;
-    private IMacroExpander m_macroExpander = null;
+    private readonly Package m_package = null;
+    private readonly DTE2 m_dte = null;
+    private readonly IMacroExpander m_macroExpander = null;
     /************************ Static *****************************************/
     private static CommentMyCode INSTANCE = null;
   } // end of class - CommentMyCode
@@ -261,7 +258,7 @@ namespace MB.VS.Extension.CommentMyCode
       /// </summary>
       public const int CommentInterface = 0x10241007;
 
-    }
+    } // End of class - Comment
 
   } // end of class - CommentMyCodeCmdIDs
 
@@ -341,6 +338,4 @@ namespace MB.VS.Extension.CommentMyCode
 
 
 }
-
-
 /* End CommentMyCode.cs */

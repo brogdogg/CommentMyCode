@@ -1,21 +1,15 @@
-﻿//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // <copyright file="CommentMyCodePackage.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 using MB.VS.Extension.CommentMyCode.UserOptions;
+using Task = System.Threading.Tasks.Task;
+using System.Threading;
 
 namespace MB.VS.Extension.CommentMyCode
 {
@@ -36,14 +30,13 @@ namespace MB.VS.Extension.CommentMyCode
   /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
   /// </para>
   /// </remarks>
-  [PackageRegistration(UseManagedResourcesOnly = true)]
+  [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
   [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
   [Guid(CommentMyCodePackage.PackageGuidString)]
-  [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
   [ProvideMenuResource("Menus.ctmenu", 1)]
   [ProvideProfile(typeof(MainOptionPage), "CommentMyCode", "Comment Templates", 106, 107, isToolsOptionPage:true, DescriptionResourceID = 108)]
   [ProvideOptionPage(typeof(MainOptionPage), "CommentMyCode", "Main", 0, 0, true)]
-  public sealed class CommentMyCodePackage : Package
+  public sealed class CommentMyCodePackage : AsyncPackage
   {
     /// <summary>
     /// CommentMyCodePackage GUID string.
@@ -55,21 +48,30 @@ namespace MB.VS.Extension.CommentMyCode
     /// </summary>
     public CommentMyCodePackage()
     {
-      // Inside this method you can place any initialization code that does not require
-      // any Visual Studio service because at this point the package object is created but
-      // not sited yet inside Visual Studio environment. The place to do all the other
-      // initialization is the Initialize method.
+      // Inside this method you can place any initialization code that does not
+      // require any Visual Studio service because at this point the package
+      // object is created but not sited yet inside Visual Studio environment.
+      // The place to do all the other initialization is the Initialize method.
     }
 
     #region Package Members
 
     /// <summary>
-    /// Initialization of the package; this method is called right after the package is sited, so this is the place
-    /// where you can put all the initialization code that rely on services provided by VisualStudio.
+    /// Initialization of the package; this method is called right after the
+    /// package is sited, so this is the place where you can put all the
+    /// initialization code that rely on services provided by VisualStudio.
     /// </summary>
-    protected override void Initialize()
+    protected override async Task InitializeAsync(
+      CancellationToken cancellationToken,
+      IProgress<ServiceProgressData> progress)
     {
-      base.Initialize();
+      await base.InitializeAsync(cancellationToken, progress);
+
+      // When initialized asynchronously, we *may* be on a background thread at
+      // this point.   Do any initialization that requires the UI thread after
+      // switching to the UI thread.   Otherwise, remove the switch to the UI
+      // thread if you don't need it.
+      await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
       CommentMyCode.Initialize(this);
     }
 
