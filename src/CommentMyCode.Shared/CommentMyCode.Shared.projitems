@@ -48,8 +48,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)app.config" />
-    <None Include="$(MSBuildThisFileDirectory)CommentMyCodePackage.vsct" />
     <None Include="$(MSBuildThisFileDirectory)Key.snk" />
   </ItemGroup>
 </Project>
