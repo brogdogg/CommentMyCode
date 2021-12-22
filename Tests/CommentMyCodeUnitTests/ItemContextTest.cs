@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
  * File...: ItemContextTest.cs
  * Remarks:
  */
@@ -49,16 +49,18 @@ namespace CommentMyCodeUnitTests
     [TestMethod]
     public void ConstructsWithState()
     {
-      //throw new NotImplementedException();
       var state = Substitute.For<ICommentMyCodeState>();
       var dte = Substitute.For<EnvDTE80.DTE2>();
       var doc = Substitute.For<EnvDTE.Document>();
       var ts = Substitute.For<TextSelection>();
-      var tp = Substitute.For<TextPoint>();
+      //var tp = Substitute.For<TextPoint>();
+      var vp = Substitute.For<VirtualPoint>();
       var ce = Substitute.For<EnvDTE.CodeElement>();
       ce.Kind.Returns(vsCMElement.vsCMElementProperty);
-      tp.CodeElement[EnvDTE.vsCMElement.vsCMElementProperty].Returns(ce);
-      ts.ActivePoint.Returns(tp);
+      //tp.CodeElement[EnvDTE.vsCMElement.vsCMElementProperty].Returns(ce);
+      //ts.ActivePoint.Returns(tp);
+      vp.CodeElement[EnvDTE.vsCMElement.vsCMElementProperty].Returns(ce);
+      ts.ActivePoint.Returns(vp);
       var docPath = @"\temp\test.path";
       doc.Path.Returns(docPath);
       doc.FullName.Returns(docPath);

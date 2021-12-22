@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bf7231a0-0f97-4fc9-ae97-8511f50a63ae</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CommentMyCode.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)UserOptions\Controls\MainOptionPageControl.resx">
+      <DependentUpon>MainOptionPageControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CommentMyCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommentMyCodePackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Context\ItemContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DocumentExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EditPointExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TextPointExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MacroExpander\MacroExpander.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\BaseProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpClassCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpEnumCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpFileCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpFunctionCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpNamespaceCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\csharp\CSharpPropertyCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\c\CCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\c\CFunctionCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\IProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\ProviderFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\py\PYCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\py\PYFunctionCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\xml\XmlFileCommentProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringNormalizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserOptions\Controls\MainOptionPageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserOptions\Controls\MainOptionPageControl.Designer.cs">
+      <DependentUpon>MainOptionPageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserOptions\MainOptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Key.snk" />
+  </ItemGroup>
+</Project>

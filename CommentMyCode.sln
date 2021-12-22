@@ -1,28 +1,55 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BFD689EA-26BE-4616-B34C-2CC474691837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCode", "CommentMyCode.csproj", "{4F53BCAE-9825-4098-B53C-A354A92BE5E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCode.Dev16", "src\CommentMyCode.Dev16\CommentMyCode.Dev16.csproj", "{4F53BCAE-9825-4098-B53C-A354A92BE5E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCodeUnitTests", "Tests\CommentMyCodeUnitTests\CommentMyCodeUnitTests.csproj", "{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommentMyCode.Shared", "src\CommentMyCode.Shared\CommentMyCode.Shared.shproj", "{BF7231A0-0F97-4FC9-AE97-8511F50A63AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentMyCode.Dev17", "src\CommentMyCode.Dev17\CommentMyCode.Dev17.csproj", "{4F53BCAE-9825-4098-B53C-A354A92BE5E8}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\CommentMyCode.Shared\CommentMyCode.Shared.projitems*{4f53bcae-9825-4098-b53c-a354a92be5e7}*SharedItemsImports = 4
+		src\CommentMyCode.Shared\CommentMyCode.Shared.projitems*{4f53bcae-9825-4098-b53c-a354a92be5e8}*SharedItemsImports = 4
+		src\CommentMyCode.Shared\CommentMyCode.Shared.projitems*{bf7231a0-0f97-4fc9-ae97-8511f50a63ae}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Debug|x86.ActiveCfg = Debug|x86
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Debug|x86.Build.0 = Debug|x86
 		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Release|x86.ActiveCfg = Release|x86
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E7}.Release|x86.Build.0 = Release|x86
 		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Debug|x86.Build.0 = Debug|Any CPU
 		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Release|x86.ActiveCfg = Release|Any CPU
+		{06CDD3E6-FFB5-4E41-B9BD-241558A2A67B}.Release|x86.Build.0 = Release|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Debug|x86.ActiveCfg = Debug|x86
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Debug|x86.Build.0 = Debug|x86
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Release|x86.ActiveCfg = Release|x86
+		{4F53BCAE-9825-4098-B53C-A354A92BE5E8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
