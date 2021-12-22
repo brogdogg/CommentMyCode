@@ -1,12 +1,9 @@
-﻿/******************************************************************************
+/******************************************************************************
  * File...: StringNormalizer.cs
  * Remarks:
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MB.VS.Extension.CommentMyCode
 {
@@ -62,13 +59,18 @@ namespace MB.VS.Extension.CommentMyCode
     /// <param name="maxColCnt">
     /// Optional maximum column count for a word boundary, default is 80
     /// </param>
-    public StringNormalizer(int maxColCnt = 80, string openCommentStr = null, string closeCommentStr = null)
+    public StringNormalizer(
+      int maxColCnt = 80,
+      string openCommentStr = null,
+      string closeCommentStr = null)
     {
       CloseCommentStr = closeCommentStr;
       MaxColumnCount = maxColCnt;
       OpenCommentStr = openCommentStr;
       return;
     } // end of function - StringNormalizer
+
+
     /************************ Methods ****************************************/
     /*----------------------- Normalize -------------------------------------*/
     /// <summary>
@@ -86,9 +88,7 @@ namespace MB.VS.Extension.CommentMyCode
     /// This method uses an offset of zero
     /// </remarks>
     public virtual IEnumerable<string> Normalize(string strToNormalize)
-    {
-      return Normalize(strToNormalize, 0);
-    } // end of function - Normalize
+      => Normalize(strToNormalize, 0);
 
 
     /*----------------------- Normalize -------------------------------------*/
@@ -194,8 +194,5 @@ namespace MB.VS.Extension.CommentMyCode
     /************************ Fields *****************************************/
     /************************ Static *****************************************/
   } // end of class - StringNormalizer
-
-}
-
-
+} // end of namespace - MB.VS.Extension.CommentMyCode
 /* End StringNormalizer.cs */

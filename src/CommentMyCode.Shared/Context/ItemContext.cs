@@ -1,8 +1,9 @@
-﻿/******************************************************************************
+/******************************************************************************
  * File...: ItemComment.cs
  * Remarks:
  */
 using EnvDTE;
+using EnvDTE80;
 using MB.VS.Extension.CommentMyCode.Extensions;
 using System;
 using System.Collections.Generic;
@@ -200,46 +201,42 @@ namespace MB.VS.Extension.CommentMyCode.Context
     /// </summary>
     protected virtual void ParseCommentType()
     {
-      if (null != Document)
+      // Get the current selection
+      if (Document?.Selection is TextSelection sel)
       {
-        // Get the current selection
-        var sel = Document.Selection as TextSelection;
-        if (null != sel)
+        // From the text selection we should be able to get the active point
+        // for inspection
+        TextPoint tp = sel.ActivePoint;
+        // Then check for well-known code elements
+        var ce = this.CodeElement = tp.GetCodeElement();
+        if (ce != null)
         {
-          // From the text selection we should be able to get the active point
-          // for inspection
-          TextPoint tp = sel.ActivePoint;
-          // Then check for well-known code elements
-          var ce = this.CodeElement = tp.GetCodeElement();
-          if (ce != null)
+          switch (ce.Kind)
           {
-            switch (ce.Kind)
-            {
-              case vsCMElement.vsCMElementClass:
-                CommentType = SupportedCommandTypeFlag.Class;
-                break;
-              case vsCMElement.vsCMElementEnum:
-                CommentType = SupportedCommandTypeFlag.Enum;
-                break;
-              case vsCMElement.vsCMElementFunction:
-                CommentType = SupportedCommandTypeFlag.Function;
-                break;
-              case vsCMElement.vsCMElementInterface:
-                CommentType = SupportedCommandTypeFlag.Interface;
-                break;
-              case vsCMElement.vsCMElementProperty:
-                CommentType = SupportedCommandTypeFlag.Property;
-                break;
-              case vsCMElement.vsCMElementNamespace:
-                CommentType = SupportedCommandTypeFlag.Namespace;
-                break;
-              default:
-                CommentType = SupportedCommandTypeFlag.Unknown;
-                break;
-            } // end switch - code element kind
-          } // end of if - code elemtn of current active point is valid
-        } // end of if - valid insertion point
-      } // end of if - valid Document
+            case vsCMElement.vsCMElementClass:
+              CommentType = SupportedCommandTypeFlag.Class;
+              break;
+            case vsCMElement.vsCMElementEnum:
+              CommentType = SupportedCommandTypeFlag.Enum;
+              break;
+            case vsCMElement.vsCMElementFunction:
+              CommentType = SupportedCommandTypeFlag.Function;
+              break;
+            case vsCMElement.vsCMElementInterface:
+              CommentType = SupportedCommandTypeFlag.Interface;
+              break;
+            case vsCMElement.vsCMElementProperty:
+              CommentType = SupportedCommandTypeFlag.Property;
+              break;
+            case vsCMElement.vsCMElementNamespace:
+              CommentType = SupportedCommandTypeFlag.Namespace;
+              break;
+            default:
+              CommentType = SupportedCommandTypeFlag.Unknown;
+              break;
+          } // end switch - code element kind
+        } // end of if - code elemtn of current active point is valid
+      } // end of if - valid insertion point
       return;
     } // end of function - ParseCommentType
     /************************ Fields *****************************************/
