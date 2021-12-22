@@ -79,9 +79,9 @@
     <Compile Include="StringNormalizerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommentMyCode.csproj">
+    <ProjectReference Include="..\..\src\CommentMyCode.Dev16\CommentMyCode.Dev16.csproj">
       <Project>{4f53bcae-9825-4098-b53c-a354a92be5e7}</Project>
-      <Name>CommentMyCode</Name>
+      <Name>CommentMyCode.Dev16</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -89,10 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NSubstitute">
-      <Version>4.0.0</Version>
+      <Version>4.2.2</Version>
     </PackageReference>
     <PackageReference Include="System.Threading.Tasks.Extensions">
-      <Version>4.5.2</Version>
+      <Version>4.5.4</Version>
     </PackageReference>
   </ItemGroup>
   <Choose>

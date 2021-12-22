@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="CommentMyCode.Michael Brogdon.7635d7f4-8b13-4820-b2fe-de0bb03ef1fa" Version="1.0" Language="en-US" Publisher="Michael Brogdon" />
-        <DisplayName>CommentMyCode</DisplayName>
+        <DisplayName>CommentMyCode 2019</DisplayName>
         <Description>Empty VSIX Project.</Description>
         <Icon>Resources\CommentMyCodePackage.ico</Icon>
     </Metadata>
